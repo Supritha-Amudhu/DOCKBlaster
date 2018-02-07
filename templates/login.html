@@ -1,0 +1,28 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+            {% for error in form.username.errors %}
+                <div style="color: red">{{ error }}</div>
+            {% endfor %}
+        </p>
+    <p>
+        {{ form.password.label }}<br>
+        {{ form.password(size=32) }}
+        {% for error in form.password.errors %}
+            <div style="color: red">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.remember_me() }}
+        {{ form.remember_me.label }}
+    </p>
+    <p>
+        {{ form.submit }}
+    </p>
+    </form>
+{% endblock %}

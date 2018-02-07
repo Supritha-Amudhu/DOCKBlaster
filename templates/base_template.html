@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>{{ "DOCK Blaster - " + title }}</title>
+    {% else %}
+        <title>DOCK Blaster</title>
+    {% endif %}
+</head>
+<body>
+    <div>
+        <a href="index"> Home Page</a>
+    </div>
+    <div>
+        {% if heading %}
+            <p> {{ heading.upper() }} </p>
+        {% else %}
+            <p> DOCK Blaster </p>
+        {% endif %}
+    </div>
+    <div>
+        <div> <a href="login">Login</a> </div>
+        <div> <a href="dock_files">DOCK Files</a> </div>
+    </div>
+    <div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

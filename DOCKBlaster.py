@@ -1,11 +1,12 @@
 from flask import Flask, render_template, redirect, request, url_for, request, flash
 from config import Config
 from login_form import LoginForm
-import database
+from models import db, User
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# from DOCKBlaster import routes, models
 
 @app.route('/')
 @app.route('/index', methods=['GET','POST'])
@@ -17,6 +18,12 @@ def index():
 @app.route('/login', methods=['GET','POST'])
 def login():
     login_form = LoginForm()
+    recipe1 = User(1, 'supritha', 'soup@ucsf.edu', 'pwd')
+    db.session.add(recipe1)
+    db.session.commit()
+    user = User.query.get(1)
+    user.password_hash = 'mynewpassword'
+    db.session.commit()
     if login_form.validate_on_submit():
         return redirect("index.html")
     else:
@@ -30,4 +37,7 @@ def dock_files():
 
 
 if __name__ == '__main__':
+    db.init_app(app)
+    db.app = app
+    db.create_all()
     app.run()

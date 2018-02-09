@@ -7,17 +7,15 @@
     {% else %}
         <title>DOCK Blaster</title>
     {% endif %}
+    <meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<script src="static/jQuery.min.js"></script>
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+	<script src="static/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div>
         <a href="index"> Home Page</a>
-    </div>
-    <div>
-        {% if heading %}
-            <p> {{ heading.upper() }} </p>
-        {% else %}
-            <p> DOCK Blaster </p>
-        {% endif %}
     </div>
     <div>
         <div> <a href="login">Login</a> </div>
@@ -33,6 +31,13 @@
                 </ul>
             {% endif %}
         {% endwith %}
+    </div>
+    <div>
+        {% if heading %}
+            <p> {{ heading.upper() }} </p>
+        {% else %}
+            <p> DOCK Blaster </p>
+        {% endif %}
     </div>
     {% block content %}
     {% endblock %}

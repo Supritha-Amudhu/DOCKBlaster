@@ -1,7 +1,7 @@
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from DOCKBlaster import app
-from models import db
+from models import db, User, Job_Status, Docking_Job
 
 
 migrate = Migrate(app, db)

@@ -1,7 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
-import datetime
+from flask_login import UserMixin
 
 db = SQLAlchemy()
+
+import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+from DOCKBlaster import login
+
 
 
 class BaseModel(db.Model):
@@ -28,7 +33,7 @@ class BaseModel(db.Model):
         }
 
 
-class User(BaseModel, db.Model):
+class User(UserMixin, db.Model):
     """Model for the User table"""
     __tablename__ = 'users'
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -41,11 +46,28 @@ class User(BaseModel, db.Model):
         self.user_id = user_id
         self.username = username
         self.email = email
-        self.password_hash = password_hash
+        self.password_hash = generate_password_hash(password_hash)
+        self.date_created = date_created
+
+    def __init__(self, username, email, password_hash, date_created):
+        self.username = username
+        self.email = email
+        self.password_hash = generate_password_hash(password_hash)
         self.date_created = date_created
 
     def __repr__(self):
         return "<User: {}".format(self.username)
+
+    # def set_password(self, password):
+    #     self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+
+@login.user_loader
+def load_user():
+    return User.query.get(int(id))
 
 
 class Job_Status(BaseModel, db.Model):
@@ -72,5 +94,3 @@ class Docking_Job(BaseModel, db.Model):
         self.user_id = user_id
         self.job_status_id = job_status_id
         self.date_started = date_started
-
-

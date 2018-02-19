@@ -1,21 +1,15 @@
+from DOCKBlaster import app
 import os
-from flask import Flask, render_template, redirect, request, url_for, request, flash
-from werkzeug.utils import secure_filename
+from flask import render_template, redirect, request, url_for, request, flash
 import helper, datetime
-from config import Config
 from login_form import LoginForm, SignUpForm
-from flask_login import LoginManager, current_user, login_user
-
-
-app = Flask(__name__)
-app.config.from_object(Config)
-app.config['UPLOAD_FOLDER'] = helper.UPLOAD_FOLDER
-now = datetime.datetime.now()
-
+from flask_login import  current_user, login_user
+from werkzeug.utils import secure_filename
 from models import db, User
-from models import Job_Status, Docking_Job
 
-login = LoginManager(app)
+
+# @app.config["UPLOAD_FOLDER"] = helper.UPLOAD_FOLDER
+now = datetime.datetime.now()
 
 @app.route('/')
 @app.route('/index', methods=['GET','POST'])
@@ -65,7 +59,7 @@ def sign_up():
         email = request.form['email']
         date_created = now.strftime("%Y-%m-%d %H:%M")
         login_form = LoginForm()
-        create_user_recipe = User(username = username, password_hash = password, email = email,
+        create_user_recipe = User(user_id = 1, username = username, password_hash = password, email = email,
                                   date_created = date_created)
         db.session.add(create_user_recipe)
         db.session.commit()
@@ -104,10 +98,3 @@ def submit_ligand_receptor_data():
 
 # @app.route('/dock_results', methods=['GET','POST'])
 # def dock_results():
-
-
-if __name__ == '__main__':
-    db.init_app(app)
-    db.app = app
-    db.create_all()
-    app.run()

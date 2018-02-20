@@ -1,7 +1,7 @@
 {% extends "base_template.html" %}
 {% block content %}
     <div>
-        <form action = "http://localhost:5000/submit_ligand_receptor_data" enctype="multipart/form-data" method = "POST">
+        <form action = "/fileupload/submit_ligand_receptor_data" enctype="multipart/form-data" method = "POST">
             <div class="form-group">
                 <label for="exampleInputFile">File input A</label>
                 <input type="file" class="form-control-file" name = "file_a" id="exampleInputFile" aria-describedby="fileHelp">

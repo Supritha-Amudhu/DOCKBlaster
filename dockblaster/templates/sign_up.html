@@ -1,12 +1,19 @@
 {% extends "base_template.html" %}
 
 {% block content %}
-    <form action="/sign_up" method="post">
+    <form action="/users/sign_up" method="post">
         {{ form.hidden_tag() }}
         <div class="form-group">
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-            {% for error in form.username.errors %}
+            {{ form.first_name.label }}<br>
+            {{ form.first_name(size=32) }}
+            {% for error in form.first_name.errors %}
+                <div style="color: red">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.last_name.label }}<br>
+            {{ form.last_name(size=32) }}
+            {% for error in form.last_name.errors %}
                 <div style="color: red">{{ error }}</div>
             {% endfor %}
         </div>

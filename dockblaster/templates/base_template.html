@@ -17,14 +17,18 @@
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="index">DOCK Blaster</a>
+          <a class="navbar-brand" href="/index">DOCK Blaster</a>
         </div>
         <ul class="nav navbar-nav">
-          <li><a href="dock_files">DOCK Files</a></li>
+          <li><a href="/fileupload/dock_files">DOCK Files</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="sign_up"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-          <li><a href="login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+            <li><a href="/users/sign_up"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="/users/login"><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
+            {% else %}
+                <li><a href="/users/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+            {% endif %}
         </ul>
       </div>
     </nav>

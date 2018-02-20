@@ -11,9 +11,7 @@ POSTGRES = {
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'DOCK-Blaster'
-    #SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-     #                         'sqlite:///' + os.path.join(basedir, 'DOCKBlaster.db')
-    #SQLALCHEMY_DATABASE_URI = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+    SESSION_TYPE = 'filesystem'
     SQLALCHEMY_DATABASE_URI = "postgresql://localhost/dockblaster"
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
@@ -26,7 +24,7 @@ class ProdConfig(Config):
     """Production configuration."""
 
     ENV = 'prod'
-    DEBUG = False
+    DEBUG = True
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
 
 

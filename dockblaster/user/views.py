@@ -29,8 +29,8 @@ def on_login_submit():
             return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
         login_user(user, remember=login_form.remember_me.data)
         return render_template('index.html', title="Home", heading="HOME")
-    return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
-
+    # return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
+    return redirect("login.html")
 
 @blueprint.route('/logout', methods=['POST'])
 def on_logout():

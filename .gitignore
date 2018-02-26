@@ -1,6 +1,8 @@
 bin/
 lib/
 include/
-*.pyc
 .idea/
 .Python
+*.pyc
+dockblaster/*.pyc
+dockblaster/*/*.pyc

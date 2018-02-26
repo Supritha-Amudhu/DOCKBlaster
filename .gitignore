@@ -4,5 +4,3 @@ include/
 .idea/
 .Python
 *.pyc
-dockblaster/*.pyc
-dockblaster/*/*.pyc

@@ -1,12 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email
+from wtforms.fields.html5 import EmailField
 
 from .models import User
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField("Login")
@@ -14,7 +15,7 @@ class LoginForm(FlaskForm):
     def validate(self):
         user = User.query.filter_by(email=self.email.data).first()
         if not user:
-            self.email.errors.append('Email not registered.')
+            self.email.errors += ('Email not registered.', )
             return False
         return True
 
@@ -29,6 +30,6 @@ class SignUpForm(FlaskForm):
     def validate(self):
         user = User.query.filter_by(email=self.email.data).first()
         if user:
-            self.email.errors.append('Email already registered.')
+            self.email.errors += ('Email already registered.', )
             return False
         return True

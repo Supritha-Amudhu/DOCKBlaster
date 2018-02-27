@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """User views."""
-from flask import Blueprint, render_template, redirect, request, flash
+from flask import Blueprint, render_template, redirect, request, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from .forms import LoginForm, SignUpForm
 from .models import User
@@ -11,16 +11,16 @@ blueprint = Blueprint('user', __name__, url_prefix='/users', static_folder='../s
 
 @blueprint.route('/login', methods=['GET'])
 def get_login():
+    if current_user.is_authenticated:
+        return redirect(url_for('public.index'))
     login_form = LoginForm()
     if login_form.validate_on_submit():
-        return redirect("index.html")
+        return redirect(url_for('public.index'))
     return render_template("login.html", title="Login", heading ="LOGIN", form=login_form)
 
 
 @blueprint.route('/login', methods=['POST'])
 def on_login_submit():
-    if current_user.is_authenticated:
-        return render_template('index.html', title="Home", heading="HOME")
     login_form = LoginForm()
     if login_form.validate_on_submit():
         user = User.query.filter_by(email=login_form.email.data).first()
@@ -28,11 +28,11 @@ def on_login_submit():
             flash("Invalid Email or Password")
             return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
         login_user(user, remember=login_form.remember_me.data)
-        return render_template('index.html', title="Home", heading="HOME")
-    # return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
-    return redirect("login.html")
+        return redirect(url_for('public.index'))
+    return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
 
-@blueprint.route('/logout', methods=['POST'])
+
+@blueprint.route('/logout', methods=['GET','POST'])
 def on_logout():
     logout_user()
     login_form = LoginForm()
@@ -43,7 +43,7 @@ def on_logout():
 def get_signup():
     sign_up_form = SignUpForm()
     if sign_up_form.validate_on_submit():
-        return redirect("index.html")
+        return redirect(url_for('public.index'))
     else:
         return render_template("sign_up.html", title="Sign Up", heading="Sign Up", form=sign_up_form)
 
@@ -58,5 +58,4 @@ def on_submit_signup():
                               date_created=date_created)
     db.session.add(create_user_recipe)
     db.session.commit()
-    login_form = LoginForm()
-    return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
+    return redirect("users/login")

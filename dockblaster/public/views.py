@@ -4,5 +4,5 @@ blueprint = Blueprint('public', __name__, static_folder='../static')
 
 @blueprint.route('/', methods=['GET', 'POST'])
 @blueprint.route('/index', methods=['GET', 'POST'])
-def home():
+def index():
     return render_template('index.html', title="Home", heading="HOME")

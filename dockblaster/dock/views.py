@@ -4,11 +4,13 @@ from werkzeug.utils import secure_filename
 import os
 from dockblaster import helper
 
-blueprint = Blueprint('fileupload', __name__, url_prefix='/fileupload', static_folder='../static')
+blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
+
 
 @blueprint.route('/dock_files', methods=['GET'])
 def dock_files():
     return render_template("dock_files.html", title="Dock files", heading ="Dock your files")
+
 
 @blueprint.route('/submit_ligand_receptor_data', methods=['POST'])
 def submit_ligand_receptor_data():
@@ -32,6 +34,5 @@ def submit_ligand_receptor_data():
         file_a_contents = helper.read_file_contents(upload_folder + str("/") + filename_a)
         file_b_contents = helper.read_file_contents(upload_folder + str("/") + filename_b)
         if helper.generate_result_file(file_a_contents, file_b_contents):
-            user_id = current_user.get_id();
-
+            user_id = current_user.get_id()
             return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

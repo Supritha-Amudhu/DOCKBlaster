@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-"""The fileupload module."""
+"""The dock module."""
 from . import views  # noqa

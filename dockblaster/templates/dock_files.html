@@ -1,7 +1,10 @@
 {% extends "base_template.html" %}
 {% block content %}
     <div>
-        <form action = "/fileupload/submit_ligand_receptor_data" enctype="multipart/form-data" method = "POST">
+        <a href={{ url_for('dock.get_docking_options') }}>Back to Docking options</a>
+    </div>
+    <div>
+        <form action = "/dock/submit_ligand_receptor_data" enctype="multipart/form-data" method = "POST">
             <div class="form-group">
                 <label for="exampleInputFile">File input A</label>
                 <input type="file" class="form-control-file" name = "file_a" id="exampleInputFile" aria-describedby="fileHelp">

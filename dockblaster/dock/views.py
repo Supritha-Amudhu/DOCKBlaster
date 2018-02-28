@@ -4,11 +4,33 @@ from werkzeug.utils import secure_filename
 import os
 from dockblaster import helper
 
-blueprint = Blueprint('fileupload', __name__, url_prefix='/fileupload', static_folder='../static')
+blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
+
+
+@blueprint.route('/docking_options', methods=['GET'])
+def get_docking_options():
+    return render_template("docking_options.html", title="Docking options", heading="Docking options")
+
+
+@blueprint.route('/dock_integers', methods=['GET'])
+def get_dock_integers():
+    return render_template("dock_integers.html", title="Dock Integers", heading="Dock Integers")
+
+
+@blueprint.route('/dock_strings', methods=['GET'])
+def get_dock_strings():
+    return render_template("dock_strings.html", title="Dock Strings", heading="Dock Strings")
+
+
+@blueprint.route('/dock_list_of_strings', methods=['GET'])
+def get_dock_list_of_strings():
+    return render_template("dock_list_of_strings.html", title="Dock List of Strings", heading="Dock List of Strings")
+
 
 @blueprint.route('/dock_files', methods=['GET'])
-def dock_files():
+def get_dock_files():
     return render_template("dock_files.html", title="Dock files", heading ="Dock your files")
+
 
 @blueprint.route('/submit_ligand_receptor_data', methods=['POST'])
 def submit_ligand_receptor_data():
@@ -32,6 +54,5 @@ def submit_ligand_receptor_data():
         file_a_contents = helper.read_file_contents(upload_folder + str("/") + filename_a)
         file_b_contents = helper.read_file_contents(upload_folder + str("/") + filename_b)
         if helper.generate_result_file(file_a_contents, file_b_contents):
-            user_id = current_user.get_id();
-
+            user_id = current_user.get_id()
             return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

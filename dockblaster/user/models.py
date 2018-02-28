@@ -7,12 +7,12 @@ from dockblaster.extensions import login_manager
 class User(UserMixin, BaseModel):
     """Model for the User table"""
     __tablename__ = 'users'
-    user_id = Column(db.Integer, primary_key=True, autoincrement=True)
-    first_name = Column(db.String(64))
-    last_name = Column(db.String(64))
-    email = Column(db.String(120))
-    password = Column(db.String(128))
-    date_created = Column(db.DateTime)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    first_name = db.Column(db.String(64))
+    last_name = db.Column(db.String(64))
+    email = db.Column(db.String(120))
+    password = db.Column(db.String(128))
+    date_created = db.Column(db.DateTime)
 
     def __init__(self, first_name, last_name, email, password, date_created):
         super(User, self).__init__()
@@ -26,7 +26,7 @@ class User(UserMixin, BaseModel):
         return "<User: {}".format(self.first_name)
 
     def get_id(self):
-        return str(self.user_id)
+        return unicode(self.user_id)
 
     @login_manager.user_loader
     def load_user(self):

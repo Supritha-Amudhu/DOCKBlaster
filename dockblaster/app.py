@@ -1,7 +1,7 @@
 from flask import Flask
 from .settings import ProdConfig
 from .extensions import db, login_manager, migrate
-import user, public, fileupload
+import user, public, dock
 
 
 def create_app(config_object=ProdConfig):
@@ -25,5 +25,5 @@ def register_blueprints(app):
     """Register Flask blueprints."""
     app.register_blueprint(user.views.blueprint)
     app.register_blueprint(public.views.blueprint)
-    app.register_blueprint(fileupload.views.blueprint)
+    app.register_blueprint(dock.views.blueprint)
     return None

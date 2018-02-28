@@ -8,7 +8,6 @@ Create Date: 2018-02-11 19:10:09.737630
 from alembic import op
 import sqlalchemy as sa
 
-
 # revision identifiers, used by Alembic.
 revision = 'eee68915cb3c'
 down_revision = None
@@ -16,15 +15,27 @@ branch_labels = None
 depends_on = None
 
 
-def insert_data():
+def insert_job_status_data():
     job_status_table = sa.sql.table('job_status', sa.sql.column('job_status_id'), sa.sql.column('job_status_name'))
     op.bulk_insert(job_status_table,
-                       [
-                           {'job_status_id': 1, 'job_status_name': 'Completed'},
-                           {'job_status_id': 2, 'job_status_name': 'Failed'},
-                       ],
-                       multiinsert=False
-                       )
+                   [
+                       {'job_status_id': 1, 'job_status_name': 'Completed'},
+                       {'job_status_id': 2, 'job_status_name': 'Failed'},
+                   ], multiinsert=False
+                   )
+
+
+def insert_job_types_data():
+    job_types_table = sa.sql.table('job_types', sa.sql.column('job_type_id'),
+                                                              sa.sql.column('short_name'), sa.sql.column('long_name'))
+    op.bulk_insert(job_types_table,
+                   [
+                       {'job_type_id': 1, 'short_name': 'integer', 'long_name': 'Integer docking'},
+                       {'job_type_id': 2, 'short_name': 'string', 'long_name': 'String docking'},
+                       {'job_type_id': 3, 'short_name': 'list_of_strings', 'long_name': 'List of strings docking'},
+                       {'job_type_id': 4, 'short_name': 'file', 'long_name': 'File docking'},
+                   ], multiinsert=False
+                   )
 
 
 def upgrade():
@@ -40,11 +51,13 @@ def upgrade():
                     )
 
     op.create_table('docking_jobs',
-                    sa.Column('docking_id', sa.Integer(), nullable=False),
+                    sa.Column('docking_job_id', sa.Integer(), nullable=False),
                     sa.Column('user_id', sa.Integer(), nullable=True),
                     sa.Column('job_status_id', sa.Integer(), nullable=True),
                     sa.Column('date_started', sa.DateTime(), nullable=True),
-                    sa.PrimaryKeyConstraint('docking_id')
+                    sa.Column('job_type_id', sa.Integer(), nullable=True),
+                    sa.Column('job_description', sa.String(), nullable=True),
+                    sa.PrimaryKeyConstraint('docking_job_id')
                     )
 
     op.create_table('job_status',
@@ -52,8 +65,14 @@ def upgrade():
                     sa.Column('job_status_name', sa.String(length=64), nullable=True),
                     sa.PrimaryKeyConstraint('job_status_id')
                     )
+    insert_job_status_data()
 
-    insert_data()
+    op.create_table('job_types',
+                    sa.Column('job_type_id', sa.Integer(), nullable=False),
+                    sa.Column('short_name', sa.String(), nullable=False),
+                    sa.Column('long_name', sa.String(), nullable=False)
+                    )
+    insert_job_types_data()
 
     # ### end Alembic commands ###
 
@@ -63,4 +82,5 @@ def downgrade():
     op.drop_table('users')
     op.drop_table('job_status')
     op.drop_table('docking_jobs')
+    op.drop_table('job_types')
     # ### end Alembic commands ###

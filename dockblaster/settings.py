@@ -22,6 +22,7 @@ class Config(object):
     DEBUG = True
 
 
+
 class ProdConfig(Config):
     """Production configuration."""
 

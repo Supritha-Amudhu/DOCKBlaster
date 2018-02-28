@@ -22,7 +22,7 @@ def index():
 
 @app.route('/dock_files', methods=['GET'])
 def dock_files():
-    return render_template("dock_files.html", title="Dock files", heading = "Dock your files")
+    return render_template("dock_files.html", title="Dock files", heading="Dock your files")
 
 
 @app.route('/submit_ligand_receptor_data', methods=['GET','POST'])

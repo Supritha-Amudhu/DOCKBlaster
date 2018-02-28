@@ -7,8 +7,28 @@ from dockblaster import helper
 blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
 
 
+@blueprint.route('/docking_options', methods=['GET'])
+def get_docking_options():
+    return render_template("docking_options.html", title="Docking options", heading="Docking options")
+
+
+@blueprint.route('/dock_integers', methods=['GET'])
+def get_dock_integers():
+    return render_template("dock_integers.html", title="Dock Integers", heading="Dock Integers")
+
+
+@blueprint.route('/dock_strings', methods=['GET'])
+def get_dock_strings():
+    return render_template("dock_strings.html", title="Dock Strings", heading="Dock Strings")
+
+
+@blueprint.route('/dock_list_of_strings', methods=['GET'])
+def get_dock_list_of_strings():
+    return render_template("dock_list_of_strings.html", title="Dock List of Strings", heading="Dock List of Strings")
+
+
 @blueprint.route('/dock_files', methods=['GET'])
-def dock_files():
+def get_dock_files():
     return render_template("dock_files.html", title="Dock files", heading ="Dock your files")
 
 

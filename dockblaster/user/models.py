@@ -26,7 +26,7 @@ class User(UserMixin, BaseModel):
         return "<User: {}".format(self.first_name)
 
     def get_id(self):
-        return str(self.user_id)
+        return unicode(self.user_id)
 
     @login_manager.user_loader
     def load_user(self):

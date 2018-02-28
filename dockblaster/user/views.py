@@ -9,6 +9,7 @@ import datetime
 
 blueprint = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
 
+
 @blueprint.route('/login', methods=['GET'])
 def get_login():
     if current_user.is_authenticated:
@@ -46,6 +47,7 @@ def get_signup():
         return redirect(url_for('public.index'))
     else:
         return render_template("sign_up.html", title="Sign Up", heading="Sign Up", form=sign_up_form)
+
 
 @blueprint.route('/sign_up', methods=['POST'])
 def on_submit_signup():

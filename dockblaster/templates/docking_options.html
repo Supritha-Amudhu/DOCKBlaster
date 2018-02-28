@@ -1,0 +1,25 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="container">
+      <h2> Job types </h2>
+      <div class="list-group">
+        <a href={{ url_for('dock.get_dock_integers') }} class="list-group-item">
+          <h4 class="list-group-item-heading">Integer docking</h4>
+          <p class="list-group-item-text">Dock two Integers together</p>
+        </a>
+        <a href={{ url_for('dock.get_dock_strings') }} class="list-group-item">
+          <h4 class="list-group-item-heading">String docking</h4>
+          <p class="list-group-item-text">Dock two strings together</p>
+        </a>
+        <a href={{ url_for('dock.get_dock_list_of_strings') }} class="list-group-item">
+          <h4 class="list-group-item-heading">List of Strings docking</h4>
+          <p class="list-group-item-text">Dock two lists of strings together</p>
+        </a>
+        <a href={{ url_for('dock.get_dock_files') }} class="list-group-item">
+          <h4 class="list-group-item-heading">File docking</h4>
+          <p class="list-group-item-text">Dock two files together</p>
+        </a>
+
+      </div>
+    </div>
+{% endblock %}

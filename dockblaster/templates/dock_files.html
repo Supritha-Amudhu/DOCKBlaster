@@ -1,6 +1,9 @@
 {% extends "base_template.html" %}
 {% block content %}
     <div>
+        <a href={{ url_for('dock.get_docking_options') }}>Back to Docking options</a>
+    </div>
+    <div>
         <form action = "/dock/submit_ligand_receptor_data" enctype="multipart/form-data" method = "POST">
             <div class="form-group">
                 <label for="exampleInputFile">File input A</label>

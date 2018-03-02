@@ -3,18 +3,28 @@
     <div>
         <a href={{ url_for('dock.get_docking_options') }}>Back to Docking options</a>
     </div>
-    <div>
+    <div class="container">
         <form action = "/dock/submit_ligand_receptor_data" enctype="multipart/form-data" method = "POST">
-            <div class="form-group">
-                <label for="exampleInputFile">File input A</label>
-                <input type="file" class="form-control-file" name = "file_a" id="exampleInputFile" aria-describedby="fileHelp">
-                <small id="fileHelp" class="form-text text-muted">Upload your first input file.</small>
+            <div class="form-group row">
+                <label for="receptorFile">Receptor</label>
+                <input type="file" class="form-control-file" name = "receptorFile" id="receptorFile" aria-describedby="fileHelp">
+                <small id="fileHelp" class="form-text text-muted">Upload your Receptor input file.</small>
             </div>
-            <div class="form-group">
-                <label for="exampleInputFile">File input B</label>
-                <input type="file" class="form-control-file" name = "file_b" id="exampleInputFile" aria-describedby="fileHelp">
-                <small id="fileHelp" class="form-text text-muted">Upload your second input file.</small>
+            <div class="form-group row">
+                <label for="ligandFile">Ligand</label>
+                <input type="file" class="form-control-file" name = "ligandFile" id="ligandFile" aria-describedby="fileHelp">
+                <small id="fileHelp" class="form-text text-muted">Upload your Ligand input file.</small>
             </div>
+            <div class="form-group row">
+                <label for="expertFile">Expert.tar</label>
+                <input type="file" class="form-control-file" name = "expertFile" id="expertFile" aria-describedby="fileHelp">
+                <small id="fileHelp" class="form-text text-muted">Upload your Expert.tar input file.</small>
+            </div>
+            <div class="form-group row">
+                <label for="expertFile">Number of tries</label>
+                <input type="number" class="form-control bfh-number col-sm-1">
+                <small id="fileHelp" class="form-text text-muted">Enter the number of tries.</small>
+             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

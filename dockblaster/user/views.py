@@ -36,8 +36,7 @@ def on_login_submit():
 @blueprint.route('/logout', methods=['GET','POST'])
 def on_logout():
     logout_user()
-    login_form = LoginForm()
-    return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
+    return redirect('users/login')
 
 
 @blueprint.route('/sign_up', methods=['GET'])
@@ -51,13 +50,20 @@ def get_signup():
 
 @blueprint.route('/sign_up', methods=['POST'])
 def on_submit_signup():
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    password = request.form['password']
-    email = request.form['email']
-    date_created = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    create_user_recipe = User(first_name=first_name, last_name=last_name, password=password, email=email,
-                              date_created=date_created)
-    db.session.add(create_user_recipe)
-    db.session.commit()
-    return redirect("users/login")
+    sign_up_form = SignUpForm()
+    if sign_up_form.validate_on_submit():
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        password = request.form['password']
+        email = request.form['email']
+        date_created = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        if first_name == '' or last_name == '' or password == '' or email == '':
+            flash("Please fill the required fields")
+            return redirect(url_for('user.get_signup'))
+        create_user_recipe = User(first_name=first_name, last_name=last_name, password=password, email=email,
+                                  date_created=date_created)
+        db.session.add(create_user_recipe)
+        db.session.commit()
+        return redirect(url_for('user.get_login'))
+    flash("Sign up unsuccessful. Please sign up again.")
+    return redirect(url_for('user.get_signup'))

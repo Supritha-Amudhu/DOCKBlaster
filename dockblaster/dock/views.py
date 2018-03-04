@@ -35,24 +35,32 @@ def get_dock_files():
 @blueprint.route('/submit_ligand_receptor_data', methods=['POST'])
 def submit_ligand_receptor_data():
     # check if the post request has the file part
-    if 'file_a' and 'file_b' not in request.files:
-        flash('No file part')
+    if ('receptorFile' and 'ligandFile' not in request.files) and ('numberOfTries' not in request.form):
+        flash('Files to be uploaded missing.')
         return redirect(request.url)
-    file_a = request.files['file_a']
-    file_b = request.files['file_b']
+    receptorFile = request.files['receptorFile']
+    ligandFile = request.files['ligandFile']
+    expertFile = request.files['expertFile'] or None
+    numberOfTries = request.form['numberOfTries']
     # if user does not select file, browser also
     # submit a empty part without filename
-    if file_a.filename == '' or file_b.filename == '':
+    if receptorFile.filename == '' or ligandFile.filename == '' or numberOfTries == '':
         flash('No selected file')
         return redirect(request.url)
-    if file_a and file_b and helper.allowed_file(file_a.filename) and helper.allowed_file(file_b.filename):
+    if receptorFile and ligandFile and numberOfTries and helper.allowed_file(receptorFile.filename) and helper.allowed_file(ligandFile.filename) and helper.allowed_file(expertFile.filename):
         upload_folder = current_app.config['UPLOAD_FOLDER']
-        filename_a = secure_filename(file_a.filename)
-        filename_b = secure_filename(file_b.filename)
-        file_a.save(os.path.join(upload_folder, filename_a))
-        file_b.save(os.path.join(upload_folder, filename_b))
-        file_a_contents = helper.read_file_contents(upload_folder + str("/") + filename_a)
-        file_b_contents = helper.read_file_contents(upload_folder + str("/") + filename_b)
-        if helper.generate_result_file(file_a_contents, file_b_contents):
-            user_id = current_user.get_id()
+        filename_receptorFile = 'receptor.txt'
+        filename_ligandFile = 'xtal-lig.pdb'
+        filename_expertFile = 'expert.tar'
+        filename_numberOfTries = 'numberOfTries.txt'
+        receptorFile.save(os.path.join(upload_folder, filename_receptorFile))
+        ligandFile.save(os.path.join(upload_folder, filename_ligandFile))
+        expertFile.save(os.path.join(upload_folder, filename_expertFile))
+        receptorFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_receptorFile)
+        ligandFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_ligandFile)
+        expertFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_expertFile)
+        with open("/Users/supritha/Workspace/PycharmProjects/DOCKBlaster/Files/"+filename_numberOfTries, "wb") as fo:
+            fo.write(numberOfTries)
+        if helper.generate_result_file(receptorFile_contents, ligandFile_contents, expertFile_contents):
+            # user_id = current_user.get_id()
             return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

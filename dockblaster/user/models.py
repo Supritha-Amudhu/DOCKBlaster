@@ -7,10 +7,10 @@ from dockblaster.extensions import login_manager
 class User(UserMixin, BaseModel):
     """Model for the User table"""
     __tablename__ = 'users'
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
-    email = db.Column(db.String(120))
+    email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(128))
     date_created = db.Column(db.DateTime)
 
@@ -28,13 +28,12 @@ class User(UserMixin, BaseModel):
     def get_id(self):
         return unicode(self.user_id)
 
-    @login_manager.user_loader
-    def load_user(self):
-        return User.query.get(int(id(self)))
-
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)

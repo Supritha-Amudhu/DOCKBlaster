@@ -13,7 +13,7 @@ def read_file_contents(file):
         return content
 
 
-def generate_result_file(file_a_contents, file_b_contents):
+def generate_result_file(receptorFile_contents, ligandFile_contents, expertFile_contents):
     with open("/Users/supritha/Workspace/PycharmProjects/DOCKBlaster/Files/output.txt", "wb") as fo:
-        fo.write(file_a_contents + "\n" + file_b_contents)
+        fo.write(receptorFile_contents + "\n" + ligandFile_contents + "\n" + expertFile_contents)
         return 1

@@ -29,10 +29,13 @@ def insert_job_types_data():
                                                               sa.sql.column('short_name'), sa.sql.column('long_name'))
     op.bulk_insert(job_types_table,
                    [
-                       {'job_type_id': 1, 'short_name': 'integer', 'long_name': 'Integer docking'},
-                       {'job_type_id': 2, 'short_name': 'string', 'long_name': 'String docking'},
-                       {'job_type_id': 3, 'short_name': 'list_of_strings', 'long_name': 'List of strings docking'},
-                       {'job_type_id': 4, 'short_name': 'file', 'long_name': 'File docking'},
+                       {'job_type_id': 1, 'short_name': 'cluster', 'long_name': 'Cluster'},
+                       {'job_type_id': 2, 'short_name': 'dock', 'long_name': 'Dock'},
+                       {'job_type_id': 3, 'short_name': 'prepare', 'long_name': 'Prepare'},
+                       {'job_type_id': 4, 'short_name': 'calibrate', 'long_name': 'Calibrate'},
+                       {'job_type_id': 5, 'short_name': 'decoys', 'long_name': 'Decoys'},
+                       {'job_type_id': 6, 'short_name': 'build2d', 'long_name': 'Build 2D'},
+                       {'job_type_id': 7, 'short_name': 'build3d', 'long_name': 'Build 3D'}
                    ], multiinsert=False
                    )
 

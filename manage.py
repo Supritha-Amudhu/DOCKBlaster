@@ -2,8 +2,6 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from DOCKBlaster import app
 from dockblaster.extensions import db
-from dockblaster.user.models import User
-from dockblaster.dock.models import Job_Status, Docking_Job
 
 migrate = Migrate(app, db)
 manager = Manager(app)

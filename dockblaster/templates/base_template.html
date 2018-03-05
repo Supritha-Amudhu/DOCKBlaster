@@ -9,8 +9,9 @@
     {% endif %}
     <meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<script src="static/jQuery.min.js"></script>
     <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/dockblaster.css">
+  	<script src="static/jQuery.min.js"></script>
 	<script src="static/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -20,7 +21,9 @@
           <a class="navbar-brand" href="/index">DOCK Blaster</a>
         </div>
         <ul class="nav navbar-nav">
-          <li><a href= {{ url_for('dock.get_docking_options') }}>DOCK Options</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href= {{ url_for('dock.get_docking_options') }}>DOCK Options</a></li>
+            {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}

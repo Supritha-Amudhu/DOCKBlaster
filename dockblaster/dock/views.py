@@ -1,8 +1,11 @@
 from flask import Blueprint, render_template, flash, redirect, request, current_app
 from flask_login import current_user
 from werkzeug.utils import secure_filename
-import os
+from dockblaster.database import db
+import os, os.path
 from dockblaster import helper
+from .models import Docking_Job, Job_Status, Job_Type
+import datetime
 
 blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
 
@@ -27,9 +30,9 @@ def get_dock_list_of_strings():
     return render_template("dock_list_of_strings.html", title="Dock List of Strings", heading="Dock List of Strings")
 
 
-@blueprint.route('/dock_files', methods=['GET'])
-def get_dock_files():
-    return render_template("dock_files.html", title="Dock files", heading ="Dock your files")
+@blueprint.route('/dock_cluster', methods=['GET'])
+def get_dock_cluster():
+    return render_template("dock_cluster.html", title="Dock files", heading ="Dock your files")
 
 
 @blueprint.route('/submit_ligand_receptor_data', methods=['POST'])
@@ -42,25 +45,43 @@ def submit_ligand_receptor_data():
     ligandFile = request.files['ligandFile']
     expertFile = request.files['expertFile'] or None
     numberOfTries = request.form['numberOfTries']
+    jobDescription = request.form['jobDescription']
+    job_type_id = request.form['jobTypeID']
+    job_type = request.form['jobTypeName']
     # if user does not select file, browser also
     # submit a empty part without filename
     if receptorFile.filename == '' or ligandFile.filename == '' or numberOfTries == '':
         flash('No selected file')
         return redirect(request.url)
-    if receptorFile and ligandFile and numberOfTries and helper.allowed_file(receptorFile.filename) and helper.allowed_file(ligandFile.filename) and helper.allowed_file(expertFile.filename):
-        upload_folder = current_app.config['UPLOAD_FOLDER']
-        filename_receptorFile = 'receptor.txt'
-        filename_ligandFile = 'xtal-lig.pdb'
-        filename_expertFile = 'expert.tar'
-        filename_numberOfTries = 'numberOfTries.txt'
-        receptorFile.save(os.path.join(upload_folder, filename_receptorFile))
-        ligandFile.save(os.path.join(upload_folder, filename_ligandFile))
-        expertFile.save(os.path.join(upload_folder, filename_expertFile))
-        receptorFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_receptorFile)
-        ligandFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_ligandFile)
-        expertFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_expertFile)
-        with open("/Users/supritha/Workspace/PycharmProjects/DOCKBlaster/Files/"+filename_numberOfTries, "wb") as fo:
+    if (receptorFile and ligandFile and numberOfTries)\
+            and helper.allowed_file(receptorFile.filename) and helper.allowed_file(ligandFile.filename) \
+            and helper.allowed_file(expertFile.filename):
+        # upload_folder = current_app.config['UPLOAD_FOLDER']
+
+        user_id = current_user.get_id()
+        date_started = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        create_job_recipe = Docking_Job(user_id=user_id, job_status_id=1, date_started=date_started,
+                                        job_type_id=job_type_id,
+                                        job_description=jobDescription)
+        db.session.add(create_job_recipe)
+        db.session.flush()
+        docking_job_id = create_job_recipe.docking_job_id
+        db.session.commit()
+
+        upload_folder = str(current_app.config['UPLOAD_FOLDER']) + job_type + "_" +\
+                        str(docking_job_id) + "/"
+        helper.mkdir_p(upload_folder)
+        filename_receptor_file = 'receptor.txt'
+        filename_ligand_file = 'xtal-lig.pdb'
+        filename_expert_file = 'expert.tar'
+        filename_number_of_tries = 'numberOfTries.txt'
+        receptorFile.save(os.path.join(upload_folder, filename_receptor_file))
+        ligandFile.save(os.path.join(upload_folder, filename_ligand_file))
+        expertFile.save(os.path.join(upload_folder, filename_expert_file))
+        receptorFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_receptor_file)
+        ligandFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_ligand_file)
+        expertFile_contents = helper.read_file_contents(upload_folder + str("/") + filename_expert_file)
+        with open(upload_folder + filename_number_of_tries, "wb") as fo:
             fo.write(numberOfTries)
-        if helper.generate_result_file(receptorFile_contents, ligandFile_contents, expertFile_contents):
-            # user_id = current_user.get_id()
+        if helper.generate_result_file(upload_folder, receptorFile_contents, ligandFile_contents, expertFile_contents):
             return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

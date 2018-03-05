@@ -1,5 +1,7 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+from os.path import expanduser
+
 
 POSTGRES = {
     'user': 'blasteruser',
@@ -7,18 +9,17 @@ POSTGRES = {
     'db': 'blaster',
     'host': 'mem.cluster.ucsf.bkslab.org',
     'port': '5432',
-    #'port': '6543',
 }
+
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'DOCK-Blaster'
     SESSION_TYPE = 'filesystem'
-    #SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://blasteruser:@localhost:6543/blaster"
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://blasteruser:@mem.cluster.ucsf.bkslab.org:5432/blaster"
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = 'DOCKBlaster/Files'
+    UPLOAD_FOLDER = '/nfs/ex7/blaster/jobs/1/'
     DEBUG = True
 
 
@@ -36,12 +37,13 @@ class DevConfig(Config):
 
     ENV = 'dev'
     DEBUG = True
-    DB_NAME = 'DOCKBlaster.db'
+    DB_NAME = 'dockblaster.db'
     # Put the db file in project root
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
     DEBUG_TB_ENABLED = True
-    UPLOAD_FOLDER = '/Users/supritha/Workspace/PycharmProjects/DOCKBlaster/Files'
+    UPLOAD_FOLDER = expanduser("~") + '/DOCKBlaster/Files/'
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
+    SQLALCHEMY_DATABASE_URI="postgresql://localhost/dockblaster"
 
 
 class TestConfig(Config):

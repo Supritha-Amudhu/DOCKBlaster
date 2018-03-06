@@ -4,15 +4,25 @@ from werkzeug.utils import secure_filename
 from dockblaster.database import db
 import os, os.path
 from dockblaster import helper
-from .models import Docking_Job, Job_Status, Job_Type
+from dockblaster.helper import parse_file_name, parse_text_file
+from .models import Docking_Job
 import datetime
 
 blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
 
 
-@blueprint.route('/docking_options', methods=['GET'])
+@blueprint.route('/start', methods=['GET'])
 def get_docking_options():
-    return render_template("docking_options.html", title="Docking options", heading="Docking options")
+    job_types_description = {}
+    job_types = parse_file_name(str(current_app.config['UPLOAD_FOLDER']) + "/Types")
+    for job_type in job_types:
+        job_description = parse_text_file(str(current_app.config['UPLOAD_FOLDER']) + "Types/" + str(job_type) + "/about.txt")
+        job_types_description[job_type] = job_description
+        print job_type
+        print job_description
+    return render_template("docking_options.html", title="Docking options", heading="Docking options",
+                           job_types_description=job_types_description)
+
 
 
 @blueprint.route('/dock_integers', methods=['GET'])
@@ -49,14 +59,13 @@ def submit_ligand_receptor_data():
     job_type_id = request.form['jobTypeID']
     job_type = request.form['jobTypeName']
     # if user does not select file, browser also
-    # submit a empty part without filename
+    # submit an empty part without filename
     if receptorFile.filename == '' or ligandFile.filename == '' or numberOfTries == '':
         flash('No selected file')
         return redirect(request.url)
     if (receptorFile and ligandFile and numberOfTries)\
             and helper.allowed_file(receptorFile.filename) and helper.allowed_file(ligandFile.filename) \
             and helper.allowed_file(expertFile.filename):
-        # upload_folder = current_app.config['UPLOAD_FOLDER']
 
         user_id = current_user.get_id()
         date_started = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")

@@ -14,7 +14,7 @@ blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../st
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
     job_types_description = {}
-    job_types = parse_file_name(str(current_app.config['UPLOAD_FOLDER']) + "/Types")
+    job_types = parse_file_name(str(current_app.config['UPLOAD_FOLDER']) + "Types")
     for job_type in job_types:
         job_description = parse_text_file(str(current_app.config['UPLOAD_FOLDER']) + "Types/" + str(job_type) + "/about.txt")
         job_types_description[job_type] = job_description

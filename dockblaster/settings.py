@@ -43,7 +43,7 @@ class DevConfig(Config):
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
     DEBUG_TB_ENABLED = True
     UPLOAD_FOLDER = expanduser("~") + '/DOCKBlaster/Files/'
-    PARSE_FOLDER = expanduser("~") + '/DOCKBlaster/Files/Types/'
+    PARSE_FOLDER = expanduser("~") + '/DOCKBlaster/Files/Types/Templates/'
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     SQLALCHEMY_DATABASE_URI="postgresql://localhost/dockblaster"
 

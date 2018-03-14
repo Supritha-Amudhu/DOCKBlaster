@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from dockblaster.database import db
 import os, os.path
 from dockblaster import helper
-from dockblaster.helper import parse_file_name, parse_text_file
+from dockblaster.helper import parse_file_name, parse_parameters_file
 from .models import Docking_Job
 import datetime
 
@@ -13,17 +13,24 @@ blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../st
 
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
-    job_types_description = {}
+    # job_type_description = {}
     job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
-    for job_type in job_types:
-        job_description = parse_text_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/about.txt")
-        job_types_description[job_type] = job_description
-        print job_type
-        print job_description
+    # for job_type in job_types:
+    #     job_type_description[job_type] = {}
+    #     job_description = parse_text_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.txt")
+        # job_type_description[job_type]['job_type_long_name'] = job_type
+        # job_type_description[job_type]['job_description'] = job_description
     return render_template("docking_options.html", title="Docking options", heading="Docking options",
-                           job_types_description=job_types_description)
+                           job_types=job_types)
 
+@blueprint.route('/<job_type>', methods=['GET'])
+def get_job_type(job_type):
+    job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
+    return render_template("dock_jobs.html", job_data=job_data)
 
+@blueprint.route('/submit_docking_data/<job_type>', methods=['POST'])
+def submit_docking_data(job_type):
+    job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
 
 @blueprint.route('/dock_integers', methods=['GET'])
 def get_dock_integers():
@@ -33,7 +40,6 @@ def get_dock_integers():
 @blueprint.route('/dock_strings', methods=['GET'])
 def get_dock_strings():
     return render_template("dock_strings.html", title="Dock Strings", heading="Dock Strings")
-
 
 @blueprint.route('/dock_list_of_strings', methods=['GET'])
 def get_dock_list_of_strings():

@@ -4,7 +4,7 @@ from os import listdir
 from os.path import join, isdir
 import json
 
-ALLOWED_EXTENSIONS = set(['txt'])
+ALLOWED_EXTENSIONS = set(['txt', 'pdb', 'tar'])
 
 
 def allowed_file(filename):

@@ -39,7 +39,7 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                        {% elif input_type["type"] == "radio_button" %}
+                        {% elif input_type["type"] == "radio_button" or input_type["type"] == "radiobutton" %}
                             <div class="form-group row">
                                 <label class="required-field">{{ input_type["file_name"] }}</label>
                                     <div class="custom-controls-stacked">
@@ -51,7 +51,7 @@
                                     </div>
                                 <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
                             </div>
-                        {% elif input_type["type"] == "check_box" %}
+                        {% elif input_type["type"] == "check_box" or input_type["type"] == "checkbox" %}
                             <div class="form-group row">
                                 <label class="required-field">{{ input_type["file_name"] }}</label>
                                 {% for option in input_type["values"] %}

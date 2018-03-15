@@ -30,7 +30,37 @@ def get_job_type(job_type):
 
 @blueprint.route('/submit_docking_data/<job_type>', methods=['POST'])
 def submit_docking_data(job_type):
+    counter = 1
     job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
+    user_id = current_user.get_id()
+    date_started = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    create_job_recipe = Docking_Job(user_id=user_id, job_status_id=1, date_started=date_started,
+                                    job_type_id=job_data["job_number"],
+                                    job_description=job_data["job_description"])
+    db.session.add(create_job_recipe)
+    db.session.flush()
+    docking_job_id = create_job_recipe.docking_job_id
+    db.session.commit()
+    upload_folder = str(current_app.config['UPLOAD_FOLDER']) + str(docking_job_id % 10) + "/" + str(docking_job_id % 10) + "/"
+    helper.mkdir_p(upload_folder)
+    for input in job_data["inputs"]:
+        name = job_data['job_type_name'] + "_" + input['type'] + "_" + str(counter)
+        counter = counter + 1
+        if request.files[name] or request.form[name]:
+            file = request.files[name] or request.form[name]
+            if file.filename == '' or file == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if "file_upload" not in name:
+                with open(upload_folder + input["file_name"], "wb") as fo:
+                    fo.write(file)
+                    fo.close()
+            else:
+                file.save(os.path.join(upload_folder, input["file_name"]))
+        else:
+            flash('Files to be uploaded missing.')
+            return redirect(request.url)
+    return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")
 
 @blueprint.route('/dock_integers', methods=['GET'])
 def get_dock_integers():

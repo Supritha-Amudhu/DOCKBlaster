@@ -16,95 +16,58 @@
             </div>
             {% set counter = 0 %}
             {% for input_type in job_data["inputs"] %}
-                    {% set form_name =  job_data["job_type_name"] + "_" + input_type["type"] + "_" + loop.index|string %}
-{#                     {% set counter = counter + 1 %}#}
-                        {% if input_type["type"] == "file_upload" %}
-                            <div class="form-group row">
-                                <label class="required-field">{{ input_type["file_name"] }}</label>
-                                <input type="file" class="form-control-file" name={{ form_name }} id="receptorFile" aria-describedby="fileHelp" required="true">
-                                <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
-                            </div>
-                        {% elif input_type["type"] == "text_box" %}
-                            <div class="form-group row">
-                                <label class="required-field">{{ input_type["file_name"] }}</label>
-                                <input type="text" class="form-control-file" name={{ form_name }} id="receptorFile" aria-describedby="fileHelp" required="true">
-                                <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
-                            </div>
-                        {% elif input_type["type"] == "drop_down" %}
-                            <div class="form-group row">
-                                <select class="custom-select">
-                                    <option selected>Options</option>
-                                    {% for option in input_type["values"] %}
-                                        <option value={{ option }}>{{ option }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        {% elif input_type["type"] == "radio_button" or input_type["type"] == "radiobutton" %}
-                            <div class="form-group row">
-                                <label class="required-field">{{ input_type["file_name"] }}</label>
-                                    <div class="custom-controls-stacked">
-                                        {% for option in input_type["values"] %}
-                                            <input type="radio" class="custom-control-input" aria-describedby="fileHelp" name={{ form_name }} id={{ option }}>
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description">{{ option }}</span>
-                                        {% endfor %}
-                                    </div>
-                                <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
-                            </div>
-                        {% elif input_type["type"] == "check_box" or input_type["type"] == "checkbox" %}
-                            <div class="form-group row">
-                                <label class="required-field">{{ input_type["file_name"] }}</label>
+                {% set input_name = os.path.splitext(input["file_name"])[0] %}
+                {% set form_name =  job_data["job_type_name"] + "_" + input_type["type"] + "_" + loop.index|string %}
+                {% if input_type["type"] == "file_upload" %}
+                    <div class="form-group row">
+                        <label class="required-field">{{ input_type["file_name"] }}</label>
+                        <input type="file" class="form-control-file" name={{ form_name }} id={{ input_name }} aria-describedby="fileHelp" required="true">
+                        <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
+                    </div>
+                {% elif input_type["type"] == "text_box" %}
+                    <div class="form-group row">
+                        <label class="required-field">{{ input_type["file_name"] }}</label>
+                        <input type="text" class="form-control-file" name={{ form_name }} id={{ input_name }} aria-describedby="fileHelp" required="true">
+                        <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
+                    </div>
+                {% elif input_type["type"] == "drop_down" %}
+                    <div class="form-group row">
+                        <select class="custom-select">
+                            <option selected>Options</option>
+                            {% for option in input_type["values"] %}
+                                <option value={{ option }}>{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% elif input_type["type"] == "radio_button" or input_type["type"] == "radiobutton" %}
+                    <div class="form-group row">
+                        <label class="required-field">{{ input_type["file_name"] }}</label>
+                            <div class="custom-controls-stacked">
                                 {% for option in input_type["values"] %}
-                                    <input type="checkbox" class="custom-control-input" aria-describedby="fileHelp" name={{ form_name }}>
+                                    <input type="radio" class="custom-control-input" aria-describedby="fileHelp" name={{ form_name }} id={{ option }}>
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">{{ option }}</span>
                                 {% endfor %}
-                                <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
                             </div>
-                        {% endif %}
-{#                    {% endwith %}#}
-{#                {% endwith %}#}
+                        <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
+                    </div>
+                {% elif input_type["type"] == "check_box" or input_type["type"] == "checkbox" %}
+                    <div class="form-group row">
+                        <label class="required-field">{{ input_type["file_name"] }}</label>
+                        {% for option in input_type["values"] %}
+                            <input type="checkbox" class="custom-control-input" id= {{ input_name }} aria-describedby="fileHelp" name={{ form_name }}>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">{{ option }}</span>
+                        {% endfor %}
+                        <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
+                    </div>
+                {% endif %}
             {% endfor %}
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 {% endblock %}
-
-{#            <div class="form-group row">#}
-{#                <label for="receptorFile" class="required-field">Receptor</label>#}
-{#                <input type="file" class="form-control-file" name="receptorFile" id="receptorFile" aria-describedby="fileHelp" required="true">#}
-{#                <small id="fileHelp" class="form-text text-muted">Upload your Receptor input file.</small>#}
-{#            </div>#}
-{#            <div class="form-group row">#}
-{#                <label for="ligandFile" class="required-field">Ligand</label>#}
-{#                <input type="file" class="form-control-file" name="ligandFile" id="ligandFile" aria-describedby="fileHelp" required="true">#}
-{#                <small id="fileHelp" class="form-text text-muted">Upload your Ligand input file.</small>#}
-{#            </div>#}
-{#            <div class="form-group row">#}
-{#                <label for="expertFile">Expert.tar</label>#}
-{#                <input type="file" class="form-control-file" name="expertFile" id="expertFile" aria-describedby="fileHelp">#}
-{#                <small id="fileHelp" class="form-text text-muted">Upload your Expert.tar input file.</small>#}
-{#            </div>#}
-{#            <div class="form-group row">#}
-{#                <label for="numberOfTries" class="required-field">Number of tries</label>#}
-{#                <input type="number" class="form-control bfh-number col-sm-1" name="numberOfTries" required="true">#}
-{#                <small id="fileHelp" class="form-text text-muted">Enter the number of tries.</small>#}
-{#            </div>#}
-{#            <div class="form-group row" class="required-field">#}
-{#                <label for="numberOfTries">Comments</label>#}
-{#                <input type="text" class="form-control bfh-number col-sm-1" name="jobDescription" required="true">#}
-{#                <small id="fileHelp" class="form-text text-muted">Enter description/comments on the job.</small>#}
-{#            </div>#}
-{#            <div class="form-group row">#}
-{#                <input type="hidden" name="jobTypeID" value="1"/>#}
-{#                <input type="hidden" name="jobTypeName" value="cluster"/>#}
-{#            </div>#}
-{##}
-{#            <div class="form-group row">#}
-{#                <label class="required-field">Comments on the Job: {{ job_data["comments"] }}</label>#}
-{#            </div>#}
-
 
 
 

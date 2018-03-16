@@ -6,13 +6,16 @@
     <div class="container">
         <form action = {{ url_for('dock.submit_docking_data', job_type=job_data["job_type_name"]) }} enctype="multipart/form-data" method = "POST">
             <div class="form-group row">
-                <label>Job Type Name:   {{ job_data["job_type_name"] }}</label>
+                <label>Job Type Name: </label>
+                <span> {{ job_data["job_type_name"] }} </span>
             </div>
             <div class="form-group row">
-                <label>Job Full Name:   {{ job_data["job_full_name"] }}</label>
+                <label>Job Full Name: </label>
+                <span>  {{ job_data["job_full_name"] }} </span>
             </div>
             <div class="form-group row">
-                <label>Job Description:     {{ job_data["job_description"] }}</label>
+                <label>Job Description: </label>
+                <span> {{ job_data["job_description"] }} </span>
             </div>
             {% set counter = 0 %}
             {% for input_type in job_data["inputs"] %}
@@ -27,13 +30,21 @@
                 {% elif input_type["type"] == "text_box" %}
                     <div class="form-group row">
                         <label class="required-field">{{ input_type["file_name"] }}</label>
-                        <input type="text" class="form-control-file" name="{{ form_name }}" id= "{{ input_name }}" aria-describedby="fileHelp" required="true">
+                        {% if input_type["value_type"] == "number" %}
+                            {% if input_type["value_range"] %}
+                                <input class="required-field" type="number" step="0.01" min="{{ input_type['value_range']['min_value'] }}" max="{{ input_type['value_range']['max_value'] }}" class="form-control-file" name="{{ form_name }}" id= "{{ input_name }}" aria-describedby="fileHelp" required="true">
+                            {% else %}
+                                <input class="required-field" type="number" step="0.01" class="form-control-file" name="{{ form_name }}" id= "{{ input_name }}" aria-describedby="fileHelp" required="true">
+                            {% endif %}
+                        {% else %}
+                            <input type="text" class="form-control-file required-field" name="{{ form_name }}" id= "{{ input_name }}" aria-describedby="fileHelp" required="true">
+                        {% endif %}
                         <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
                     </div>
                 {% elif input_type["type"] == "drop_down" %}
                     <div class="form-group row">
-                        <select class="custom-select" name="{{ form_name }}" id= "{{ input_name }}">
-                            <option selected>Options</option>
+                        <select required class="custom-select" name="{{ form_name }}" id= "{{ input_name }}">
+                            <option selected value="">Options</option>
                             {% for option in input_type["values"] %}
                                 <option value={{ option }}>{{ option }}</option>
                             {% endfor %}
@@ -44,7 +55,7 @@
                         <label class="required-field">{{ input_type["file_name"] }}</label>
                             <div class="custom-controls-stacked">
                                 {% for option in input_type["values"] %}
-                                    <input type="radio" class="custom-control-input" aria-describedby="fileHelp" name="{{ form_name }}" id="{{ option }}">
+                                    <input required type="radio" class="custom-control-input" value={{ option }} aria-describedby="fileHelp" name="{{ form_name }}" id="{{ option }}">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">{{ option }}</span>
                                 {% endfor %}
@@ -55,7 +66,7 @@
                     <div class="form-group row">
                         <label class="required-field">{{ input_type["file_name"] }}</label>
                         {% for option in input_type["values"] %}
-                            <input type="checkbox" class="custom-control-input" id= "{{ option }}" aria-describedby="fileHelp" name="{{ form_name }}">
+                            <input type="checkbox" class="custom-control-input" id= "{{ option }}" value="{{ option }}" aria-describedby="fileHelp" name="{{ form_name }}">
                             <span class="custom-control-indicator"></span>
                             <span class="custom-control-description">{{ option }}</span>
                         {% endfor %}

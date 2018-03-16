@@ -16,23 +16,23 @@
             </div>
             {% set counter = 0 %}
             {% for input_type in job_data["inputs"] %}
-                {% set input_name = os.path.splitext(input["file_name"])[0] %}
                 {% set form_name =  job_data["job_type_name"] + "_" + input_type["type"] + "_" + loop.index|string %}
                 {% if input_type["type"] == "file_upload" %}
+                    {% set input_name = input_type["file_name"].split(".")[0] %}
                     <div class="form-group row">
                         <label class="required-field">{{ input_type["file_name"] }}</label>
-                        <input type="file" class="form-control-file" name={{ form_name }} id={{ input_name }} aria-describedby="fileHelp" required="true">
+                        <input type="file" class="form-control-file" name="{{ form_name }}" id= "{{ input_name }}" aria-describedby="fileHelp" required="true">
                         <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
                     </div>
                 {% elif input_type["type"] == "text_box" %}
                     <div class="form-group row">
                         <label class="required-field">{{ input_type["file_name"] }}</label>
-                        <input type="text" class="form-control-file" name={{ form_name }} id={{ input_name }} aria-describedby="fileHelp" required="true">
+                        <input type="text" class="form-control-file" name="{{ form_name }}" id= "{{ input_name }}" aria-describedby="fileHelp" required="true">
                         <small id="fileHelp" class="form-text text-muted">{{ input_type["display_text"] }}</small>
                     </div>
                 {% elif input_type["type"] == "drop_down" %}
                     <div class="form-group row">
-                        <select class="custom-select">
+                        <select class="custom-select" name="{{ form_name }}" id= "{{ input_name }}">
                             <option selected>Options</option>
                             {% for option in input_type["values"] %}
                                 <option value={{ option }}>{{ option }}</option>
@@ -44,7 +44,7 @@
                         <label class="required-field">{{ input_type["file_name"] }}</label>
                             <div class="custom-controls-stacked">
                                 {% for option in input_type["values"] %}
-                                    <input type="radio" class="custom-control-input" aria-describedby="fileHelp" name={{ form_name }} id={{ option }}>
+                                    <input type="radio" class="custom-control-input" aria-describedby="fileHelp" name="{{ form_name }}" id="{{ option }}">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">{{ option }}</span>
                                 {% endfor %}
@@ -55,7 +55,7 @@
                     <div class="form-group row">
                         <label class="required-field">{{ input_type["file_name"] }}</label>
                         {% for option in input_type["values"] %}
-                            <input type="checkbox" class="custom-control-input" id= {{ input_name }} aria-describedby="fileHelp" name={{ form_name }}>
+                            <input type="checkbox" class="custom-control-input" id= "{{ option }}" aria-describedby="fileHelp" name="{{ form_name }}">
                             <span class="custom-control-indicator"></span>
                             <span class="custom-control-description">{{ option }}</span>
                         {% endfor %}

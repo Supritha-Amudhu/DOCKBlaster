@@ -19,7 +19,7 @@ class Config(object):
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = '/nfs/ex7/blaster/jobs/1/'
+    UPLOAD_FOLDER = '/nfs/ex7/blaster/jobs/'
     PARSE_FOLDER = '/nfs/ex7/blaster/templates/'
     DEBUG = True
 

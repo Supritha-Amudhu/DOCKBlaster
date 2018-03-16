@@ -62,20 +62,6 @@ def submit_docking_data(job_type):
             return redirect(request.url)
     return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")
 
-@blueprint.route('/dock_integers', methods=['GET'])
-def get_dock_integers():
-    return render_template("dock_integers.html", title="Dock Integers", heading="Dock Integers")
-
-
-@blueprint.route('/dock_strings', methods=['GET'])
-def get_dock_strings():
-    return render_template("dock_strings.html", title="Dock Strings", heading="Dock Strings")
-
-@blueprint.route('/dock_list_of_strings', methods=['GET'])
-def get_dock_list_of_strings():
-    return render_template("dock_list_of_strings.html", title="Dock List of Strings", heading="Dock List of Strings")
-
-
 @blueprint.route('/dock_cluster', methods=['GET'])
 def get_dock_cluster():
     return render_template("dock_cluster.html", title="Dock files", heading ="Dock your files")

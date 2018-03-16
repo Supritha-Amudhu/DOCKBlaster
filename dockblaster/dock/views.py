@@ -13,13 +13,7 @@ blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../st
 
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
-    # job_type_description = {}
     job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
-    # for job_type in job_types:
-    #     job_type_description[job_type] = {}
-    #     job_description = parse_text_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.txt")
-        # job_type_description[job_type]['job_type_long_name'] = job_type
-        # job_type_description[job_type]['job_description'] = job_description
     return render_template("docking_options.html", title="Docking options", heading="Docking options",
                            job_types=job_types)
 
@@ -41,25 +35,27 @@ def submit_docking_data(job_type):
     db.session.flush()
     docking_job_id = create_job_recipe.docking_job_id
     db.session.commit()
-    upload_folder = str(current_app.config['UPLOAD_FOLDER']) + str(docking_job_id % 10) + "/" + str(docking_job_id % 10) + "/"
+    upload_folder = str(current_app.config['UPLOAD_FOLDER']) + str(docking_job_id % 10) + "/" + str(docking_job_id) + "/"
     helper.mkdir_p(upload_folder)
     for input in job_data["inputs"]:
         name = job_data['job_type_name'] + "_" + input['type'] + "_" + str(counter)
         counter = counter + 1
-        if request.files[name] or request.form[name]:
-            file = request.files[name] or request.form[name]
-            if file.filename == '' or file == '':
+        if request.files.get(name):
+            file = request.files[name]
+            if file.filename == '':
                 flash('No selected file')
                 return redirect(request.url)
-            if "file_upload" not in name:
+            else:
+                file.save(os.path.join(upload_folder, input["file_name"]))
+        elif request.form.get(name):
+            file = request.form[name]
+            if file == '':
+                flash('Missing field values')
+                return redirect(request.url)
+            else:
                 with open(upload_folder + input["file_name"], "wb") as fo:
                     fo.write(file)
                     fo.close()
-            else:
-                file.save(os.path.join(upload_folder, input["file_name"]))
-        else:
-            flash('Files to be uploaded missing.')
-            return redirect(request.url)
     return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")
 
 @blueprint.route('/dock_cluster', methods=['GET'])

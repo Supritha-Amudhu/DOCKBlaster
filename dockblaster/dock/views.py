@@ -61,8 +61,9 @@ def submit_docking_data(job_type):
                 with open(upload_folder + input["file_name"], "wb") as fo:
                     fo.write(file)
                     fo.close()
+    path = str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/" + job_data["command"]
+    subprocess.call([path])
     with open(upload_folder + job_data["job_output"], "wb") as fo:
-        path = str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/" + job_data["command"]
-        fo.write(subprocess.call([path]))
+        fo.write("")
         fo.close()
     return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

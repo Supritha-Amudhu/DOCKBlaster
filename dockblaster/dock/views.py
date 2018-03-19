@@ -7,8 +7,10 @@ from dockblaster import helper
 from dockblaster.helper import parse_file_name, parse_parameters_file
 from .models import Docking_Job
 import datetime
+import subprocess
 
 blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
+# job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
 
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
@@ -21,7 +23,7 @@ def get_job_type(job_type):
     job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
     return render_template("dock_jobs.html", job_data=job_data)
 
-@blueprint.route('/submit_docking_data/<job_type>', methods=['POST'])
+@blueprint.route('/results/<job_type>', methods=['POST'])
 def submit_docking_data(job_type):
     counter = 1
     job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
@@ -60,6 +62,7 @@ def submit_docking_data(job_type):
                     fo.write(file)
                     fo.close()
     with open(upload_folder + job_data["job_output"], "wb") as fo:
-        fo.write("")
+        path = str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/" + job_data["command"]
+        fo.write(subprocess.call([path]))
         fo.close()
     return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

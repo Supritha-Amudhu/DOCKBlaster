@@ -63,14 +63,14 @@ def submit_docking_data(job_type):
                     fo.write(file)
                     fo.close()
     path = str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/" + job_data["command"]
-    qsub = "qsub " + path + " " + upload_folder
+    qsub = "qsub " + path + " " + upload_folder + " > jobID" 
     if job_data["batchq"] == "0":
         subprocess.call([path, upload_folder])
     else:
         os.chdir(upload_folder)
         out = subprocess.Popen(qsub, shell=True)
-        out = out.communicate()[0]
-    # with open(upload_folder + job_data["job_output"], "wb") as fo:
-    #     fo.write(str(result))
-    #     fo.close()
+        out.communicate()[0]
+    with open(upload_folder + job_data["job_output"], "w") as fo:
+        fo.write(str(""))
+        fo.close()
     return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

@@ -8,6 +8,7 @@ from dockblaster.helper import parse_file_name, parse_parameters_file
 from .models import Docking_Job
 import datetime
 import subprocess
+from subprocess import call
 
 blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
 # job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
@@ -62,7 +63,7 @@ def submit_docking_data(job_type):
                     fo.write(file)
                     fo.close()
     path = str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/" + job_data["command"]
-    qsub = "qsub " + path
+    qsub = "qsub " + path + " > jobID"
     if job_data["batchq"] == "0":
         subprocess.call([path, upload_folder])
     else:

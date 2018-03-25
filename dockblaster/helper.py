@@ -13,9 +13,12 @@ def allowed_file(filename):
 
 
 def read_file_contents(file):
-    with open(file, "r") as f:
-        content = f.read()
-        return content
+    try:
+        with open(file, "r") as f:
+            content = f.read()
+            return content
+    finally:
+        f.close()
 
 
 def generate_result_file(upload_folder, receptorFile_contents, ligandFile_contents, expertFile_contents):
@@ -29,6 +32,21 @@ def generate_result_file(upload_folder, receptorFile_contents, ligandFile_conten
 def parse_parameters_file(path_to_file):
     data = json.load(open(path_to_file))
     return data
+
+def parse_parameters_file_recursive(path_to_file):
+    job_data = []
+    for files in os.walk(path_to_file, topdown=True, onerror=None, followlinks=False):
+        for file in files[2]:
+            if file == "parameters.json":
+                parameters_file_path = os.path.join(files[0], file)
+                individual_job_data = read_file_contents(parameters_file_path)
+                individual_job_data = json.loads(individual_job_data)
+                # print individual_job_data["job_type_name"]
+                job_data.append(individual_job_data)
+                # job_data[individual_job_data["job_type_name"]] = individual_job_data
+                # print job_data
+    return job_data
+
 
 def parse_file_name(path_to_file):
     job_types = [f for f in listdir(path_to_file) if isdir(join(path_to_file, f))]

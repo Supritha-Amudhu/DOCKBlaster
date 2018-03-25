@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from dockblaster.database import db
 import os, os.path
 from dockblaster import helper
-from dockblaster.helper import parse_file_name, parse_parameters_file
+from dockblaster.helper import parse_parameters_file, parse_parameters_file_recursive
 from .models import Docking_Job
 import datetime
 import subprocess
@@ -15,9 +15,11 @@ blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../st
 
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
-    job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
-    return render_template("docking_options.html", title="Docking options", heading="Docking options",
-                           job_types=job_types)
+    job_data = parse_parameters_file_recursive(str(current_app.config['PARSE_FOLDER']))# + str(job_type) + "/parameters.json")
+    # job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
+    # print job_data
+    return render_template("docking_options.html", title="Docking options", heading="What do you want?",
+                           job_data=job_data)
 
 @blueprint.route('/<job_type>', methods=['GET'])
 def get_job_type(job_type):
@@ -63,14 +65,14 @@ def submit_docking_data(job_type):
                     fo.write(file)
                     fo.close()
     path = str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/" + job_data["command"]
-    qsub = "qsub " + path + " " + upload_folder + " > jobID" 
-    if job_data["batchq"] == "0":
-        subprocess.call([path, upload_folder])
-    else:
-        os.chdir(upload_folder)
-        out = subprocess.Popen(qsub, shell=True)
-        out.communicate()[0]
-    with open(upload_folder + job_data["job_output"], "w") as fo:
-        fo.write(str(""))
-        fo.close()
+    # qsub = "qsub " + path + " " + upload_folder + " > jobID"
+    # if job_data["batchq"] == "0":
+    #     subprocess.call([path, upload_folder])
+    # else:
+    #     os.chdir(upload_folder)
+    #     out = subprocess.Popen(qsub, shell=True)
+    #     out.communicate()[0]
+    # with open(upload_folder + job_data["job_output"], "w") as fo:
+    #     fo.write(str(""))
+    #     fo.close()
     return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

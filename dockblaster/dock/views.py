@@ -11,13 +11,10 @@ import subprocess
 from subprocess import call
 
 blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
-# job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
 
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
     job_data = parse_parameters_file_recursive(str(current_app.config['PARSE_FOLDER']))# + str(job_type) + "/parameters.json")
-    # job_types = parse_file_name(str(current_app.config['PARSE_FOLDER']))
-    # print job_data
     return render_template("docking_options.html", title="Docking options", heading="What do you want?",
                            job_data=job_data)
 
@@ -65,14 +62,14 @@ def submit_docking_data(job_type):
                     fo.write(file)
                     fo.close()
     path = str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/" + job_data["command"]
-    # qsub = "qsub " + path + " " + upload_folder + " > jobID"
-    # if job_data["batchq"] == "0":
-    #     subprocess.call([path, upload_folder])
-    # else:
-    #     os.chdir(upload_folder)
-    #     out = subprocess.Popen(qsub, shell=True)
-    #     out.communicate()[0]
-    # with open(upload_folder + job_data["job_output"], "w") as fo:
-    #     fo.write(str(""))
-    #     fo.close()
+    qsub = "qsub " + path + " " + upload_folder + " > jobID"
+    if job_data["batchq"] == "0":
+        subprocess.call([path, upload_folder])
+    else:
+        os.chdir(upload_folder)
+        out = subprocess.Popen(qsub, shell=True)
+        out.communicate()[0]
+    with open(upload_folder + job_data["job_output"], "w") as fo:
+        fo.write(str(""))
+        fo.close()
     return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")

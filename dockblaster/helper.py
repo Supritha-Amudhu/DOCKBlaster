@@ -17,6 +17,10 @@ def read_file_contents(file):
         with open(file, "r") as f:
             content = f.read()
             return content
+    except IOError:
+        print "Unable to read file contents"
+    else:
+        print "File read successfuly"
     finally:
         f.close()
 
@@ -30,27 +34,42 @@ def generate_result_file(upload_folder, receptorFile_contents, ligandFile_conten
         fo.close()
 
 def parse_parameters_file(path_to_file):
-    data = json.load(open(path_to_file))
+    try:
+        data = json.load(open(path_to_file))
+    except IOError:
+        print "Unable to parse parameters file"
+    else:
+        print "Parameters file parsed successfully"
     return data
+
 
 def parse_parameters_file_recursive(path_to_file):
     job_data = []
-    for files in os.walk(path_to_file, topdown=True, onerror=None, followlinks=False):
-        for file in files[2]:
-            if file == "parameters.json":
-                parameters_file_path = os.path.join(files[0], file)
-                individual_job_data = read_file_contents(parameters_file_path)
-                individual_job_data = json.loads(individual_job_data)
-                # print individual_job_data["job_type_name"]
-                job_data.append(individual_job_data)
-                # job_data[individual_job_data["job_type_name"]] = individual_job_data
-                # print job_data
-    return job_data
+    try:
+        for files in os.walk(path_to_file, topdown=True, onerror=None, followlinks=False):
+            for file in files[2]:
+                if file == "parameters.json":
+                    parameters_file_path = os.path.join(files[0], file)
+                    individual_job_data = read_file_contents(parameters_file_path)
+                    individual_job_data = json.loads(individual_job_data)
+                    job_data.append(individual_job_data)
+    except IOError:
+        print "Unable to parse parameters files"
+    else:
+        print "Parameters files parsed successfully"
+    finally:
+        return job_data
 
 
 def parse_file_name(path_to_file):
-    job_types = [f for f in listdir(path_to_file) if isdir(join(path_to_file, f))]
-    return job_types
+    try:
+        job_types = [f for f in listdir(path_to_file) if isdir(join(path_to_file, f))]
+    except IOError:
+        print "Unable to parse file name"
+    else:
+        print "File name parsed successfully"
+    finally:
+        return job_types
 
 
 def mkdir_p(path):

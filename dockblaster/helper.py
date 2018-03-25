@@ -17,8 +17,8 @@ def read_file_contents(file):
         with open(file, "r") as f:
             content = f.read()
             return content
-    except IOError:
-        print "Unable to read file contents"
+    except IOError as err:
+        print("IO error: {0}".format(err))
     else:
         print "File read successfuly"
     finally:
@@ -36,8 +36,8 @@ def generate_result_file(upload_folder, receptorFile_contents, ligandFile_conten
 def parse_parameters_file(path_to_file):
     try:
         data = json.load(open(path_to_file))
-    except IOError:
-        print "Unable to parse parameters file"
+    except IOError as err:
+        print("IO error: {0}".format(err))
     else:
         print "Parameters file parsed successfully"
     return data
@@ -53,8 +53,8 @@ def parse_parameters_file_recursive(path_to_file):
                     individual_job_data = read_file_contents(parameters_file_path)
                     individual_job_data = json.loads(individual_job_data)
                     job_data.append(individual_job_data)
-    except IOError:
-        print "Unable to parse parameters files"
+    except IOError as err:
+        print("IO error: {0}".format(err))
     else:
         print "Parameters files parsed successfully"
     finally:

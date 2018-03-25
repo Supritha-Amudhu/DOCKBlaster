@@ -21,7 +21,7 @@ def get_docking_options():
 @blueprint.route('/<job_type>', methods=['GET'])
 def get_job_type(job_type):
     job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
-    return render_template("dock_jobs.html", job_data=job_data)
+    return render_template("dock_jobs.html", job_data=job_data, heading="Action: "+job_type, sub_heading=job_data["job_full_name"])
 
 @blueprint.route('/results/<job_type>', methods=['POST'])
 def submit_docking_data(job_type):

@@ -1,43 +1,23 @@
 {% extends "base_template.html" %}
 {% block content %}
-{#    <div class="container">#}
-{#      <h2> Job types </h2>#}
-{#        <div class="list-group">#}
-{#            {% for job_type in job_types %}#}
-{#                <a href={{ url_for('dock.get_job_type', job_type=job_type) }} class="list-group-item">#}
-{#                  <h4 class="list-group-item-heading">{{ job_type }}</h4>#}
-{#                  <p class="list-group-item-text">Dock a {{ job_type }}</p>#}
-{#                </a>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    </div>#}
-
-
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <h1>
-            <strong>Job Types</strong>
-          </h1>
-        </div>
-      </div>
       {% set counter = 1 %}
       <div class="row">
-          {% for job_type in job_types %}
+          {% for job_data in job_data %}
             {% if (counter%4) == 0 %}
                 </div>
                 <div class="row">
             {% endif %}
                 <div class="col-sm-3">
                     <div class = "thumbnail">
-                        <a href="{{ url_for('dock.get_job_type', job_type=job_type) }}" class="tile">
-                          <h3 class="title">{{ job_type }}</h3>
-                          <p>{{ job_type }}</p>
-                        </a>
+                        <a href="{{ url_for('dock.get_job_type', job_type=job_data["job_type_name"]) }}" class="tile">
+                          <h3 class="title">{{ job_data["job_type_name"] }}</h3> </a>
+                        <abbr>
+                            <nobr>{{ job_data["job_description"] }}</nobr>
+                        </abbr>
                     </div>
                 </div>
                 {% set counter = loop.index %}
           {% endfor %}
-
     </div>
 {% endblock %}

@@ -14,34 +14,6 @@
                 </div>
             </div>
 
-{##}
-{#            <div class="card text-center">#}
-{#              <div class="card-header">#}
-{#                  <h4>{{ job_data["job_description"] }} </h4>#}
-{#              </div>#}
-{#              <div class="card-body">#}
-{#                <h5 class="card-title">Special title treatment</h5>#}
-{#                <p class="card-text"></p>#}
-{#                <a href="#" class="btn btn-primary">Go</a>#}
-{#              </div>#}
-{#              <div class="card-footer text-muted">#}
-{#                2 days ago#}
-{#              </div>#}
-{#            </div>#}
-
-
-{#            <div class="form-group row">#}
-{#                <label>Job Type Name: </label>#}
-{#                <span> {{ job_data["job_type_name"] }} </span>#}
-{#            </div>#}
-{#            <div class="form-group row">#}
-{#                <label>Job Full Name: </label>#}
-{#                <span>  {{ job_data["job_full_name"] }} </span>#}
-{#            </div>#}
-{#            <div class="form-group row">#}
-{#                <label>Job Description: </label>#}
-{#                <span> {{ job_data["job_description"] }} </span>#}
-{#            </div>#}
             {% set counter = 0 %}
             {% for input_type in job_data["inputs"] %}
                 {% set form_name =  job_data["job_type_name"] + "_" + input_type["type"] + "_" + loop.index|string %}

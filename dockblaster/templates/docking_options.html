@@ -1,24 +1,29 @@
 {% extends "base_template.html" %}
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid" id ="docking_options">
       {% set counter = 1 %}
-      <div class="row">
+      <div class="row grid-specs">
           {% for job_data in job_data %}
             {% if (counter%4) == 0 %}
                 </div>
-                <div class="row">
+                <div class="row grid-specs">
             {% endif %}
                 <div class="col-sm-3">
-                    <div class = "thumbnail">
-                        <a href="{{ url_for('dock.get_job_type', job_type=job_data["job_type_name"]) }}" class="tile">
-                          <h3 class="title">{{ job_data["job_type_name"] }}</h3> </a>
-                        <abbr>
-                            <nobr>{{ job_data["job_description"] }}</nobr>
-                        </abbr>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <a class="link-color tile" href="{{ url_for('dock.get_job_type', job_type=job_data["job_type_name"]) }}">
+                                <h4 class="title">{{ job_data["job_type_name"] }}</h4>
+                                </div>
+                                <div class="panel-body grid-specs">
+                                   {{ job_data["job_description"] }}
+                                </div>
+                            </a>
+
                     </div>
                 </div>
                 {% set counter = loop.index %}
           {% endfor %}
       </div>
     </div>
+
 {% endblock %}

@@ -2,3 +2,24 @@
     content: "*";
     color: red;
 }
+#docking_options .link-color{
+    color: white;
+}
+
+.panel-primary a:hover{
+    text-decoration: none;
+}
+
+.panel-primary:hover {
+    background-color: #9cc2e3;
+}
+.grid-specs{
+    min-height: 100pt;
+    color: darkblue;
+}
+.grid-specs:hover{
+    text-decoration: none !important;
+}
+.panel-heading{
+    max-height: 35pt;
+}

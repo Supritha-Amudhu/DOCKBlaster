@@ -30,6 +30,9 @@ def generate_result_file(upload_folder, receptorFile_contents, ligandFile_conten
         with open(str(upload_folder) + "/output.txt", "wb") as fo:
             fo.write(receptorFile_contents + "\n" + ligandFile_contents + "\n" + expertFile_contents)
             return 1
+    except Exception as e:
+        print ("Error: %s" % (str(e)))
+        raise
     finally:
         fo.close()
 
@@ -38,6 +41,7 @@ def parse_parameters_file(path_to_file):
         data = json.load(open(path_to_file))
     except IOError as err:
         print("IO error: {0}".format(err))
+        raise
     else:
         print "Parameters file parsed successfully"
     return data
@@ -55,6 +59,9 @@ def parse_parameters_file_recursive(path_to_file):
                     job_data.append(individual_job_data)
     except IOError as err:
         print("IO error: {0}".format(err))
+    except Exception as e:
+        print ("failed to open file: %s" % (str(e)))
+        raise
     else:
         print "Parameters files parsed successfully"
     finally:
@@ -66,6 +73,7 @@ def parse_file_name(path_to_file):
         job_types = [f for f in listdir(path_to_file) if isdir(join(path_to_file, f))]
     except IOError:
         print "Unable to parse file name"
+        raise
     else:
         print "File name parsed successfully"
     finally:

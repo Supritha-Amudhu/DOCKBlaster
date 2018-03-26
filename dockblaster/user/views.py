@@ -29,6 +29,7 @@ def on_login_submit():
             flash("Invalid Email or Password")
             return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
         login_user(user, remember=login_form.remember_me.data)
+        flash("Logged in successfully", category='success')
         return redirect(url_for('public.index'))
     return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
 
@@ -36,6 +37,7 @@ def on_login_submit():
 @blueprint.route('/logout', methods=['GET','POST'])
 def on_logout():
     logout_user()
+    flash("Logged out successfully", category='success')
     return redirect('users/login')
 
 
@@ -64,6 +66,7 @@ def on_submit_signup():
                                   date_created=date_created)
         db.session.add(create_user_recipe)
         db.session.commit()
+        flash("Registration successful.", category='success')
         return redirect(url_for('user.get_login'))
-    flash("Sign up unsuccessful. Please sign up again.")
+    flash("Sign up unsuccessful. Please sign up again.", category='danger')
     return redirect(url_for('user.get_signup'))

@@ -1,19 +1,17 @@
 {% extends "base_template.html" %}
 {% block content %}
-    <div class="form-group row">
+    <div class="form-group row back-to-docking-options">
         <a href={{ url_for('dock.get_docking_options') }}>Back to Docking options</a>
     </div>
-    <div class="container">
+    <div class="container" id="dock_jobs_container">
         <form action = {{ url_for('dock.submit_docking_data', job_type=job_data["job_type_name"]) }} enctype="multipart/form-data" method = "POST">
-
             <div class="row">
-                <div class="col-sm-3">
-                    <div class = "thumbnail">
+                <div class="col-sm-4">
+                    <div class = "thumbnail" id="description_box">
                         {{ job_data["job_description"] }}
                     </div>
                 </div>
             </div>
-
             {% set counter = 0 %}
             {% for input_type in job_data["inputs"] %}
                 {% set form_name =  job_data["job_type_name"] + "_" + input_type["type"] + "_" + loop.index|string %}

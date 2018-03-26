@@ -41,3 +41,16 @@
 #docking_options .panel-heading{
     max-height: 35pt;
 }
+
+#dock_jobs_container #description_box{
+    padding: 10pt;
+    border-radius: 10pt;
+    position: relative;
+    left: -15pt;
+    background-color: #CDDDDE;
+}
+
+.back-to-docking-options{
+    position: relative;
+    left: 10pt;
+}

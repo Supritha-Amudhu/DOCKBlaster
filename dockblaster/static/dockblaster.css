@@ -54,3 +54,9 @@
     position: relative;
     left: 10pt;
 }
+
+#button_dock{
+    position: relative;
+    left: -12pt;
+    border-radius: 4pt;
+}

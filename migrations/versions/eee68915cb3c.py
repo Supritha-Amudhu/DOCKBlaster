@@ -20,6 +20,13 @@ def insert_job_status_data():
                    [
                        {'job_status_id': 1, 'job_status_name': 'Completed'},
                        {'job_status_id': 2, 'job_status_name': 'Failed'},
+                       {'job_status_id': 3, 'job_status_name': 'Submitted'},
+                       {'job_status_id': 4, 'job_status_name': 'Partial results available'},
+                       {'job_status_id': 5, 'job_status_name': 'Upload in progress'},
+                       {'job_status_id': 6, 'job_status_name': 'Running'},
+                       {'job_status_id': 7, 'job_status_name': 'Terminated by user'},
+                       {'job_status_id': 8, 'job_status_name': 'Terminated by system'},
+                       {'job_status_id': 9, 'job_status_name': 'Awaiting user response'},
                    ], multiinsert=False
                    )
 

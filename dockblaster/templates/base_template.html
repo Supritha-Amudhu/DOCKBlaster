@@ -10,9 +10,11 @@
     <meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/static/dockblaster.css">
   	<script src="/static/jQuery.min.js"></script>
 	<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/dockblaster.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-inverse">
@@ -27,6 +29,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
+                <li id="current_user_name"><a>Hi, User</a></li>
                 <li><a href={{ url_for('user.on_logout') }}><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
             {% else %}
                 <li><a href={{ url_for('user.get_signup') }}><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>

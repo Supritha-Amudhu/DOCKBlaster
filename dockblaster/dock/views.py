@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from dockblaster.database import db
 import os, os.path
 from dockblaster import helper
-from dockblaster.helper import parse_parameters_file, parse_parameters_file_recursive
+from dockblaster.helper import parse_parameters_file, parse_parameters_file_recursive, parse_subfolders_for_folder
 from .models import Docking_Job
 import datetime
 import subprocess
@@ -12,22 +12,29 @@ from subprocess import call
 
 blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
 
+
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
     job_data = parse_parameters_file_recursive(str(current_app.config['PARSE_FOLDER']))# + str(job_type) + "/parameters.json")
     return render_template("docking_options.html", title="Docking options", heading="What do you want?",
                            job_data=job_data)
 
+
 @blueprint.route('/<job_type>', methods=['GET'])
 def get_job_type(job_type):
     job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
     return render_template("dock_jobs.html", job_data=job_data, heading="Action: "+job_type, sub_heading=job_data["job_full_name"])
 
-# @blueprint.route('/<job_type>/<job_ID>', defaults={'job_data': None})
-@blueprint.route('/<job_type>/<job_ID>', methods=['GET'])
-def docking_job_details(job_type, job_ID):
 
-    return render_template("docking_results_job_details.html", title="DOCK Results", heading="DOCK Results")
+# @blueprint.route('/<job_type>/<job_ID>', defaults={'job_data': None})
+@blueprint.route('/<job_type>/<docking_job_id>', methods=['GET'])
+def docking_job_details(job_type, docking_job_id):
+    folder_path_job_results = str(current_app.config['UPLOAD_FOLDER']) + str(int(docking_job_id) % 10) + "/" + str(job_type) + "_" + str(docking_job_id) + "/"
+    files = parse_subfolders_for_folder(folder_path_job_results)
+    file = open(folder_path_job_results+files[0])
+    # print ">>>>>>>>>>>"
+    # print file
+    return render_template("docking_results_job_details.html", title="DOCK Results", heading="DOCK Results", files=files, path=folder_path_job_results, input=file)
 
 
 @blueprint.route('/results/<job_type>', methods=['POST'])

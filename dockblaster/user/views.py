@@ -26,7 +26,7 @@ def on_login_submit():
     if login_form.validate_on_submit():
         user = User.query.filter_by(email=login_form.email.data).first()
         if user is None or not user.check_password(login_form.password.data):
-            flash("Invalid Email or Password")
+            flash("Invalid Email or Password", category='danger')
             return render_template("login.html", title="Login", heading="LOGIN", form=login_form)
         login_user(user, remember=login_form.remember_me.data)
         flash("Logged in successfully", category='success')

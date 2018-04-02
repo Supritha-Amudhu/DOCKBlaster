@@ -1,10 +1,14 @@
 {% extends "base_template.html" %}
 {% block content %}
 
-    DOCK Results complete!
-
     <div class="container" id="dock_results_container">
-
+        {% for file in files %}
+            <div class = "result-files">
+                <i class="material-icons file-icons">folder</i>
+                <a href="file://{{ path + file }}" target="_blank">{{ file }}</a>
+                <object data="{{ path + file }}" type="application/text" width="40%" height="100px"></object>
+            </div>
+        {% endfor %}
     </div>
 
 {% endblock %}

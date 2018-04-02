@@ -86,4 +86,4 @@ def submit_docking_data(job_type):
     with open(upload_folder + job_data["job_output"], "w") as fo:
         fo.write(str(""))
         fo.close()
-    return render_template("dock_results.html", title="DOCK Results", heading="DOCK Results")
+    return redirect(url_for('dock.docking_job_details', job_type=job_type,job_ID=docking_job_id))

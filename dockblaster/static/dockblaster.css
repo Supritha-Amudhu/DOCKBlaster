@@ -70,9 +70,14 @@
     color: white;
 }
 
-.result-files, .result-dirs {
-    font-size: 18pt;
+#dock_results_container .dock-results-file-logo{
+    padding: 5pt;
+}
+
+#dock_results_container .result-files, .result-dirs {
+    font-size: 15pt;
     text-decoration: none;
+    padding: 8pt;
 }
 
 #dock_results_container .back-link {

@@ -1,27 +1,29 @@
 # -*- coding: utf-8 -*-
 """File Explorer views."""
 
-from flask import Blueprint, render_template, redirect, request, flash, url_for, current_app
-from flask_login import current_user, login_user, logout_user
+from flask import Blueprint, render_template, redirect, request, flash, current_app
+from flask_login import current_user
 import os
 import os.path
 from dockblaster.dock.models import Docking_Job
+from dockblaster.job_results.helper import get_parent_job_folder
+from dockblaster.helper import parse_subfolders_find_folder_name
 
-blueprint = Blueprint('jobresults', __name__, url_prefix='/jobresults', static_folder='../static')
+blueprint = Blueprint('jobresults', __name__, url_prefix='/results', static_folder='../static')
 
-@blueprint.route('/', defaults={'path': ''}, methods=['GET'])
+
+@blueprint.route('/', methods=['GET'])
+def render_job_list():
+    return render_job_details(path='')
+
+
 @blueprint.route('/<path:path>')
 def get_folder_details(path):
-    print(path)
+    path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), path)
     if current_user.is_authenticated:
-        print(current_user.get_id())
-        if (path == ""):
-            # render job folders
-            return render_job_details(path)
-        else:
             return render_job_folder_details(path)
     else:
-        flash("User is not authorized to view this URL", category='danger')
+        flash("Job not found.", category='danger')
         return render_template("file_explorer.html", title="DOCK Results", heading="DOCK Results", path=path)
 
 def render_job_details(path):
@@ -58,13 +60,3 @@ def render_job_folder_details(path):
         flash("The path you asked for does not exist.", category='danger')
         return render_template("file_explorer.html", title="DOCK Results", heading="DOCK Results",
                                path=path)
-
-def get_parent_job_folder(path):
-    docking_job_folder = path.split("/")[0]
-    if docking_job_folder:
-        if len(docking_job_folder.split("_")) == 2:
-            docking_job_id = docking_job_folder.split("_")[1]
-            if docking_job_id:
-                return int(docking_job_id) % 10
-    return -1
-

@@ -1,7 +1,7 @@
 import errno
 import os
 from os import listdir
-from os.path import join, isdir
+from os.path import join, isfile, isdir
 import json
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdb', 'tar'])
@@ -68,16 +68,16 @@ def parse_parameters_file_recursive(path_to_file):
         return job_data
 
 
-def parse_file_name(path_to_file):
+def parse_subfolders_for_folder(path_to_file):
     try:
-        job_types = [f for f in listdir(path_to_file) if isdir(join(path_to_file, f))]
+        subfolders = [f for f in listdir(path_to_file) if isfile(join(path_to_file, f))]
     except IOError:
         print "Unable to parse file name"
         raise
     else:
-        print "File name parsed successfully"
+        print "File names parsed successfully"
     finally:
-        return job_types
+        return subfolders
 
 
 def mkdir_p(path):

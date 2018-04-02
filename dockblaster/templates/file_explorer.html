@@ -1,0 +1,28 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="container" id="dock_results_container">
+        {% if previous_path != "-" %}
+            <a class="back-link" href="/jobresults/{{ previous_path}}">Back</a>
+        {% endif %}
+        {% for file in files %}
+            {% if not file.startswith(".") %}
+            <div class = "result-files">
+                <i class="glyphicon glyphicon-file"></i>
+                <a href="/jobresults/{{ path + "/" + file }}" download>{{ file }}</a>
+{#                <object data="{{ path + file }}" type="application/text" width="40%" height="100px"></object>#}
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% for dir in dirs %}
+            <div class = "result-dirs">
+                 <i class="glyphicon glyphicon-folder-open"></i>
+                {% if path == "" %}
+                     <a href="/jobresults/{{ dir }}">{{ dir }}</a>
+                 {% else %}
+                    <a href="/jobresults/{{ path +"/"+ dir }}">{{ dir }}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -60,3 +60,21 @@
     left: -12pt;
     border-radius: 4pt;
 }
+
+#dock_results_container .file-icons{
+    font-size: 48px;
+    color: #386BB9;
+}
+
+#current_user_name{
+    color: white;
+}
+
+.result-files, .result-dirs {
+    font-size: 18pt;
+    text-decoration: none;
+}
+
+#dock_results_container .back-link {
+    font-size: 15pt;
+}

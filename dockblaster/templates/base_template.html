@@ -25,6 +25,7 @@
         <ul class="nav navbar-nav">
             {% if current_user.is_authenticated %}
                 <li><a href= {{ url_for('dock.get_docking_options') }}>Start</a></li>
+                <li><a href= {{ url_for('jobresults.render_job_list') }}>My Jobs</a></li>
             {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">

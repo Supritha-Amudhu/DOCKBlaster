@@ -26,14 +26,11 @@ def get_job_type(job_type):
     return render_template("dock_jobs.html", job_data=job_data, heading="Action: "+job_type, sub_heading=job_data["job_full_name"])
 
 
-# @blueprint.route('/<job_type>/<job_ID>', defaults={'job_data': None})
 @blueprint.route('/<job_type>/<docking_job_id>', methods=['GET'])
 def docking_job_details(job_type, docking_job_id):
     folder_path_job_results = str(current_app.config['UPLOAD_FOLDER']) + str(int(docking_job_id) % 10) + "/" + str(job_type) + "_" + str(docking_job_id) + "/"
     files = parse_subfolders_for_folder(folder_path_job_results)
     file = open(folder_path_job_results+files[0])
-    # print ">>>>>>>>>>>"
-    # print file
     return render_template("docking_results_job_details.html", title="DOCK Results", heading="DOCK Results", files=files, path=folder_path_job_results, input=file)
 
 
@@ -86,4 +83,4 @@ def submit_docking_data(job_type):
     with open(upload_folder + job_data["job_output"], "w") as fo:
         fo.write(str(""))
         fo.close()
-    return redirect(url_for('dock.docking_job_details', job_type=job_type,job_ID=docking_job_id))
+    return redirect(url_for('jobresults.get_folder_details', path = str(docking_job_id)))

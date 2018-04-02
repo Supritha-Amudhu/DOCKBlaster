@@ -33,7 +33,7 @@ def render_job_details(path):
 
 def render_job_folder_details(path):
     parent_docking_folder = get_parent_job_folder(path)
-    requested_path = str(current_app.config['UPLOAD_FOLDER']) + "/" + str(parent_docking_folder) + "/" + path
+    requested_path = str(current_app.config['UPLOAD_FOLDER']) + str(parent_docking_folder) + "/" + path
     path_folders = path.split("/")
     del path_folders[len(path_folders) - 1]
     previous_path = "/".join(path_folders)

@@ -15,7 +15,7 @@ def render_job_list():
         return render_job_details(path='')
 
 
-@blueprint.route('/<path:path>')
+@blueprint.route('/<path:path>', methods=['GET'])
 def get_folder_details(path):
     path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), path)
     if current_user.is_authenticated:

@@ -10,13 +10,13 @@ import datetime
 import subprocess
 from subprocess import call
 
-blueprint = Blueprint('dock', __name__, url_prefix='/dock', static_folder='../static')
+blueprint = Blueprint('dock', __name__, url_prefix='', static_folder='../static')
 
 
 @blueprint.route('/start', methods=['GET'])
 def get_docking_options():
     job_data = parse_parameters_file_recursive(str(current_app.config['PARSE_FOLDER']))
-    return render_template("docking_options.html", title="Docking options", heading="What do you want?",
+    return render_template("docking_options.html", title="Docking options", heading="Action?",
                            job_data=job_data)
 
 

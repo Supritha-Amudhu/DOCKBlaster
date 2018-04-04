@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """File Explorer views."""
 
-from flask import Blueprint, render_template, redirect, request, flash, current_app
+from flask import Blueprint, render_template, flash, current_app
 from flask_login import current_user
-from dockblaster.helper import parse_subfolders_find_folder_name
+from dockblaster.dock.helper import parse_subfolders_find_folder_name
 from dockblaster.job_results.helper import render_job_details, render_job_folder_details
 
 blueprint = Blueprint('jobresults', __name__, url_prefix='/results', static_folder='../static')

@@ -1,5 +1,5 @@
 from dockblaster.dock.models import Docking_Job
-from flask import Blueprint, render_template, redirect, request, flash, current_app
+from flask import render_template, flash, current_app
 from flask_login import current_user
 import os
 import os.path

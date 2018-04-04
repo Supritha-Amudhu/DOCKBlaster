@@ -28,6 +28,12 @@ class User(UserMixin, BaseModel):
     def get_id(self):
         return unicode(self.user_id)
 
+    def get_username(self):
+        return self.first_name
+
+    def get_email(self):
+        return self.email
+
     def set_password(self, password):
         self.password = generate_password_hash(password)
 

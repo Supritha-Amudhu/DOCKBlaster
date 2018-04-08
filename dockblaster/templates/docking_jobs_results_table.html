@@ -1,0 +1,46 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="container" id="dock_results_container">
+        {% if previous_path != "-" %}
+            <a class="back-link" href="/results/{{ previous_path}}">Back</a>
+        {% endif %}
+        {% for file in files %}
+            {% if not file.startswith(".") %}
+                <div class = "result-files">
+                    <i class="glyphicon glyphicon-file dock-results-file-logo"></i>
+                    <a href="/results/{{ path + "/" + file }}" download>{{ file }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-hover table-responsive-md table-fixed">
+            <thead class="thead-light darken-column">
+              <tr>
+                <th>File</th>
+                <th>Lastname</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for dir in dirs %}
+                    <div class = "result-dirs">
+                          <tr>
+                            <td>
+                                <i class="glyphicon glyphicon-folder-open dock-results-file-logo"></i>
+                                {% if path == "" %}
+                                     <a href="/results/{{ dir.split("_")[1] }}">{{ dir }}</a>
+                                 {% else %}
+                                    <a href="/results/{{ path +"/"+ dir.split("_")[1] }}">{{ dir }}</a>
+                                {% endif %}
+                            </td>
+                            <td>Doe</td>
+                            <td>john@example.com</td>
+                          </tr>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,1 @@
+JOB_STATUSES = ['all', 'completed', 'failed', 'submitted', 'partial_results_available', 'upload_in_progress', 'running', 'terminated_by_user', 'terminated_by_system', 'awaiting_user_response']

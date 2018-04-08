@@ -1,8 +1,9 @@
-from dockblaster.dock.models import Docking_Job
+from dockblaster.dock.models import Docking_Job, Job_Status
 from flask import render_template, flash, current_app
 from flask_login import current_user
 import os
 import os.path
+from dockblaster.database import db
 
 
 def get_parent_job_folder(path):
@@ -16,7 +17,9 @@ def get_parent_job_folder(path):
 
 
 def render_job_details(path, results_table):
-    user_jobs = Docking_Job.query.filter_by(user_id=current_user.get_id()).all()
+    user_jobs = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id)\
+        .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.job_description, Docking_Job.date_started,
+                 Docking_Job.user_id, Job_Status.job_status_name)
     job_names = list()
     for user_job in user_jobs:
         parent_job_folder = user_job.docking_job_id % 10

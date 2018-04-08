@@ -16,11 +16,11 @@ class Docking_Job(BaseModel, db.Model):
     """Model for a Job table that records data about docking"""
     __tablename__ = 'docking_jobs'
     docking_job_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer)
-    job_status_id = db.Column(db.Integer)
-    date_started = db.Column(db.DateTime)
-    job_type_id = db.Column(db.Integer)
-    job_description = db.Column(db.String(500))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    job_status_id = db.Column(db.Integer, db.ForeignKey('job_status.job_status_id'), nullable=False)
+    date_started = db.Column(db.DateTime, nullable=False)
+    job_type_id = db.Column(db.Integer, nullable=False)
+    job_description = db.Column(db.String(500), nullable=False)
 
     def __init__(self, user_id, job_status_id, date_started, job_type_id, job_description):
         self.user_id = user_id

@@ -15,7 +15,7 @@ def get_parent_job_folder(path):
     return -1
 
 
-def render_job_details(path):
+def render_job_details(path, results_table):
     user_jobs = Docking_Job.query.filter_by(user_id=current_user.get_id()).all()
     job_names = list()
     for user_job in user_jobs:
@@ -27,8 +27,12 @@ def render_job_details(path):
                     job_names.append(dirname)
                     break
             break
-    return render_template("file_explorer.html", title="DOCK Results", heading="DOCK Results",
-                           dirs=job_names, path=path, previous_path = "-")
+    if results_table:
+        return render_template("docking_job_results_table.html", title="DOCK Results", heading="DOCK Results",
+                               dirs=job_names, path='', previous_path="-")
+    else:
+        return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
+                               dirs=job_names, path=path, previous_path = "-")
 
 
 def render_job_folder_details(path):
@@ -43,9 +47,9 @@ def render_job_folder_details(path):
                 return myfile.read()
         else:
             for dirpath, dirnames, filenames in os.walk(str(requested_path)):
-                return render_template("file_explorer.html", title="DOCK Results", heading="DOCK Results",
+                return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
                                        files=filenames, dirs=dirnames, path=path, previous_path = previous_path)
     else:
         flash("The path you asked for does not exist.", category='danger')
-        return render_template("file_explorer.html", title="DOCK Results", heading="DOCK Results",
+        return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
                                path=path)

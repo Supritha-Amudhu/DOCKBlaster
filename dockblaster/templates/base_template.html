@@ -17,6 +17,9 @@
     <script src="/static/dockblaster.js"></script>
 </head>
 <body>
+{#    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">#}
+{#    <link rel="icon" href="data:;base64,=">#}
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -25,7 +28,18 @@
         <ul class="nav navbar-nav">
             {% if current_user.is_authenticated %}
                 <li><a href= {{ url_for('dock.get_docking_options') }}>Start</a></li>
-                <li><a href= {{ url_for('jobresults.render_job_list') }}>Results</a></li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        Results
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% set JOB_STATUSES = ['all', 'completed', 'failed', 'submitted', 'partial_results_available', 'upload_in_progress', 'running', 'terminated_by_user', 'terminated_by_system', 'awaiting_user_response'] %}
+                        {% for status in JOB_STATUSES %}
+                            <li><a href={{ url_for('jobresults.render_job_list') }}> {{ status }} </a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
             {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">

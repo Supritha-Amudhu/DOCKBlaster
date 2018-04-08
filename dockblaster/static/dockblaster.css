@@ -70,6 +70,11 @@
     color: white;
 }
 
+#dock_results_container .darken-column{
+    background-color: #ACC5C6;
+    border-radius: 10pt;
+}
+
 #dock_results_container .dock-results-file-logo{
     padding: 5pt;
 }

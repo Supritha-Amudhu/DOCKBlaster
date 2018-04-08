@@ -30,7 +30,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
-                <li id="current_user_name"><a>Hi, User</a></li>
+                <li id="current_user_name"><a>Hi, {{ current_user.get_username() }} !</a></li>
                 <li><a href={{ url_for('user.on_logout') }}><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
             {% else %}
                 <li><a href={{ url_for('user.get_signup') }}><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>

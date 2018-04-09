@@ -54,7 +54,7 @@ def render_job_folder_details(path):
         else:
             for dirpath, dirnames, filenames in os.walk(str(requested_path)):
                 return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
-                                       files=filenames, dirs=dirnames, path=path, previous_path = previous_path)
+                                       files=filenames, dirs=dirnames, path=requested_path, previous_path = previous_path)
     else:
         flash("The path you asked for does not exist.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",

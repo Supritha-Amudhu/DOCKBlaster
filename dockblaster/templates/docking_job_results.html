@@ -8,7 +8,8 @@
             {% if not file.startswith(".") %}
                 <div class = "result-files">
                     <i class="glyphicon glyphicon-file dock-results-file-logo"></i>
-                    <a href="/results/{{ path + "/" + file }}" download>{{ file }}</a>
+                      <a href="file:///{{ path + "/" + file }}" download>{{ file }}</a>
+{#                    <a href="/results/{{ path + "/" + file }}" download>{{ file }}</a>#}
                 </div>
             {% endif %}
         {% endfor %}

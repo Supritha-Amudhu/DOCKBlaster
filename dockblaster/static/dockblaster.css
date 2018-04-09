@@ -9,39 +9,42 @@
 .footer{
     background-color: #f5f5f5;
     position: fixed;
+    background-position: 0% 0%;
     width: 100%;
     height: 40pt;
     line-height: 30pt;
     bottom: 0pt;
+    left: 0pt;
 }
 
-#docking_options{
+
+#docking_options_container{
     overflow: scroll;
-    padding-bottom:60pt;
+    padding-bottom:100pt;
 }
 
-#docking_options .link-color{
+#docking_options_container .link-color{
     color: white;
 }
 
-#docking_options .panel-primary a:hover{
+#docking_options_container .panel-primary a:hover{
     text-decoration: none;
 }
 
-#docking_options .panel-primary:hover {
+#docking_options_container .panel-primary:hover {
     background-color: #9cc2e3;
 }
 
-#docking_options .grid-specs{
+#docking_options_container .grid-specs{
     min-height: 100pt;
     color: darkblue;
 }
 
-#docking_options .grid-specs:hover{
+#docking_options_container .grid-specs:hover{
     text-decoration: none !important;
 }
 
-#docking_options .panel-heading{
+#docking_options_container .panel-heading{
     max-height: 35pt;
 }
 
@@ -90,6 +93,10 @@
 
 #dock_results_container .back-link {
     font-size: 15pt;
+}
+
+#dock_results_list_container{
+    padding-bottom: 100pt;
 }
 
 /*Login Page CSS*/

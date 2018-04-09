@@ -3,6 +3,7 @@ import os
 from os import listdir
 from os.path import join, isfile, isdir
 import json
+from operator import itemgetter
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdb', 'tar'])
 
@@ -66,7 +67,8 @@ def parse_parameters_file_recursive(path_to_file):
     else:
         print "Parameters files parsed successfully"
     finally:
-        return job_data
+        job_data_sorted = sorted(job_data, key=itemgetter('job_type_name'))
+        return job_data_sorted
 
 
 """

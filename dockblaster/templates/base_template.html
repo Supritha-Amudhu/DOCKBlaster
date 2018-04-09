@@ -54,8 +54,7 @@
       </div>
     </nav>
     <div>
-
-
+    </div>
     <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -70,9 +69,6 @@
             {% endfor %}
           {% endif %}
         {% endwith %}
-    </div>
-    </div>
-    <div class="container">
       <div class="page-header">
           {% if heading %}
               <h1> {{ heading.upper() }} </h1>

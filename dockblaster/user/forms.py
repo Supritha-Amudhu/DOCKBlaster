@@ -14,9 +14,9 @@ class LoginForm(FlaskForm):
 
     def validate(self):
         user = User.query.filter_by(email=self.email.data).first()
-        if not user:
-            self.email.errors += ('Email not registered.', )
-            return False
+        # if not user:
+        #     self.email.errors += ('Email not registered.', )
+        #     return False
         return True
 
 

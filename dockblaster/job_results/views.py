@@ -13,13 +13,13 @@ blueprint = Blueprint('jobresults', __name__, url_prefix='/results', static_fold
 @blueprint.route('/', methods=['GET'])
 def render_job_list():
     if current_user.is_authenticated:
-        return render_job_details(path='', results_table =False)
+        return render_job_details(path='', results_table=True, status='')
 
 
 @blueprint.route('/<path:path>', methods=['GET'])
 def get_folder_details(path):
     if path in JOB_STATUSES:
-        return render_job_details(path='', results_table=False)
+        return render_job_details(path='', results_table=False, status='')
     else:
         path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), path)
         if current_user.is_authenticated:

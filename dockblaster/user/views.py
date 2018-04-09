@@ -7,10 +7,10 @@ from .models import User
 from dockblaster.database import db
 import datetime
 
-blueprint = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
+blueprint = Blueprint('user', __name__, url_prefix='/', static_folder='../static')
 
 
-@blueprint.route('/login', methods=['GET'])
+@blueprint.route('login', methods=['GET'])
 def get_login():
     if current_user.is_authenticated:
         return redirect(url_for('public.index'))
@@ -20,7 +20,7 @@ def get_login():
     return render_template("login.html", title="Login", heading ="LOGIN", login_form=login_form)
 
 
-@blueprint.route('/login', methods=['POST'])
+@blueprint.route('login', methods=['POST'])
 def on_login_submit():
     login_form = LoginForm()
     if login_form.validate_on_submit():
@@ -34,14 +34,14 @@ def on_login_submit():
     return render_template("login.html", title="Login", heading="LOGIN", login_form=login_form)
 
 
-@blueprint.route('/logout', methods=['GET','POST'])
+@blueprint.route('logout', methods=['GET','POST'])
 def on_logout():
     logout_user()
     flash("Logged out successfully", category='success')
-    return redirect('users/login')
+    return redirect('login')
 
 
-@blueprint.route('/sign_up', methods=['GET'])
+@blueprint.route('sign_up', methods=['GET'])
 def get_signup():
     sign_up_form = SignUpForm()
     if sign_up_form.validate_on_submit():
@@ -50,7 +50,7 @@ def get_signup():
         return render_template("sign_up.html", title="Sign Up", heading="Sign Up", form=sign_up_form)
 
 
-@blueprint.route('/sign_up', methods=['POST'])
+@blueprint.route('sign_up', methods=['POST'])
 def on_submit_signup():
     sign_up_form = SignUpForm()
     if sign_up_form.validate_on_submit():

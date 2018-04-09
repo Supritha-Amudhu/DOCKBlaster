@@ -16,22 +16,25 @@ def get_parent_job_folder(path):
     return -1
 
 
-def render_job_details(path, results_table):
-    user_jobs = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id)\
+def render_job_details(path, results_table, status):
+    job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id)\
         .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.job_description, Docking_Job.date_started,
                  Docking_Job.user_id, Job_Status.job_status_name)
-    job_names = list()
-    for user_job in user_jobs:
+    job_names = dict()
+    for user_job in job_data:
         parent_job_folder = user_job.docking_job_id % 10
         folder_path = str(current_app.config['UPLOAD_FOLDER'])+ "/" + str(parent_job_folder)
         for (dirpath, dirnames, filenames) in os.walk(folder_path):
             for dirname in dirnames:
                 if dirname.endswith("_"+str(user_job.docking_job_id)):
-                    job_names.append(dirname)
+                    job_names[dirname] = dict()
+                    job_names[dirname]['status'] = user_job.job_status_name
+                    job_names[dirname]['description'] = user_job.job_description
+                    job_names[dirname]['date_submitted'] = user_job.date_started
                     break
             break
     if results_table:
-        return render_template("docking_job_results_table.html", title="DOCK Results", heading="DOCK Results",
+        return render_template("docking_job_results_table.html", title="DOCK Results List", heading="DOCK Results List",
                                dirs=job_names, path='', previous_path="-")
     else:
         return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",

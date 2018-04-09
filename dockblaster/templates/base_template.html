@@ -17,10 +17,8 @@
     <script src="/static/dockblaster.js"></script>
 </head>
 <body>
-{#    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">#}
-{#    <link rel="icon" href="data:;base64,=">#}
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse collapse navbar-collapse">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/index">DOCK Blaster</a>
@@ -34,9 +32,9 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        {% set JOB_STATUSES = ['all', 'completed', 'failed', 'submitted', 'partial_results_available', 'upload_in_progress', 'running', 'terminated_by_user', 'terminated_by_system', 'awaiting_user_response'] %}
+                        {% set JOB_STATUSES = ['All', 'Completed', 'Failed', 'Submitted', 'Partial Results Available', 'Upload in Progress', 'Running', 'Terminated by User', 'Terminated by System', 'Awaiting User Response'] %}
                         {% for status in JOB_STATUSES %}
-                            <li><a href={{ url_for('jobresults.render_job_list') }}> {{ status }} </a></li>
+                            <li class="dropdown"><a href={{ url_for('jobresults.render_job_list') }}> {{ status }} </a></li>
                         {% endfor %}
                     </ul>
                 </li>

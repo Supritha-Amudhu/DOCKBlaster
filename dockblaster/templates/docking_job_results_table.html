@@ -16,26 +16,26 @@
             <thead class="thead-light darken-column">
               <tr>
                 <th>File</th>
-                <th>Lastname</th>
-                <th>Email</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Date Submitted</th>
               </tr>
             </thead>
             <tbody>
-                {% for dir in dirs %}
-                    <div class = "result-dirs">
-                          <tr>
-                            <td>
-                                <i class="glyphicon glyphicon-folder-open dock-results-file-logo"></i>
-                                {% if path == "" %}
-                                     <a href="/results/{{ dir.split("_")[1] }}">{{ dir }}</a>
-                                 {% else %}
-                                    <a href="/results/{{ path +"/"+ dir.split("_")[1] }}">{{ dir }}</a>
-                                {% endif %}
-                            </td>
-                            <td>Doe</td>
-                            <td>john@example.com</td>
-                          </tr>
-                    </div>
+                {% for key, value in dirs.items() %}
+                      <tr>
+                        <td>
+                            <i class="glyphicon glyphicon-folder-open dock-results-file-logo"></i>
+                            {% if path == "" %}
+                                 <a href="/results/{{ key.split("_")[1] }}">{{ key }}</a>
+                             {% else %}
+                                <a href="/results/{{ path +"/"+ key.split("_")[1] }}">{{ key }}</a>
+                            {% endif %}
+                        </td>
+                        <td>{{ value['status'] }}</td>
+                        <td>{{ value['description'] }}</td>
+                        <td>{{ value['date_submitted'] }}</td>
+                      </tr>
                 {% endfor %}
             </tbody>
         </table>

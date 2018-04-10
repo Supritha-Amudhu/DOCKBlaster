@@ -6,7 +6,9 @@
     overflow: scroll;
 }
 
+/*Footer contents*/
 .footer{
+    clear: both;
     background-color: #f5f5f5;
     position: fixed;
     background-position: 0% 0%;
@@ -15,9 +17,10 @@
     line-height: 30pt;
     bottom: 0pt;
     left: 0pt;
+    margin-bottom: 0pt;
 }
 
-
+/*Docking Options - Start page container*/
 #docking_options_container{
     overflow: scroll;
     padding-bottom:100pt;
@@ -48,6 +51,7 @@
     max-height: 35pt;
 }
 
+/*Dock Jobs page*/
 #dock_jobs_container #description_box{
     padding: 10pt;
     border-radius: 10pt;
@@ -67,6 +71,8 @@
     border-radius: 4pt;
 }
 
+
+/*Docking Results page*/
 #dock_results_container .file-icons{
     font-size: 48px;
     color: #386BB9;
@@ -95,6 +101,7 @@
     font-size: 15pt;
 }
 
+/*Docking Results list page*/
 #dock_results_list_container{
     padding-bottom: 100pt;
 }

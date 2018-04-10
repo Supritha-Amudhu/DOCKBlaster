@@ -16,6 +16,16 @@ def render_job_list():
         return render_job_details(path='', results_table=True, status='')
 
 
+@blueprint.route('/<path:path>/<path:file>', methods=['GET'])
+def read_download_job_files(path, file):
+    path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), path) + "/" + file
+    if current_user.is_authenticated:
+        return render_job_folder_details(path)
+    else:
+        flash("Job not found.", category='danger')
+        return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results", path=path)
+
+
 @blueprint.route('/<path:path>', methods=['GET'])
 def get_folder_details(path):
     if path in JOB_STATUSES:
@@ -27,4 +37,5 @@ def get_folder_details(path):
         else:
             flash("Job not found.", category='danger')
             return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results", path=path)
+
 

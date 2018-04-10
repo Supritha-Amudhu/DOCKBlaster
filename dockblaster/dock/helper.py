@@ -90,13 +90,13 @@ def parse_subfolders_for_folder(path_to_file):
 """
     Parse a given directory path and find a string in subfolders
 """
-def parse_subfolders_find_folder_name(path, folder_name):
+def parse_subfolders_find_folder_name(path, folder_name_substring):
     try:
         for files in os.walk(path, topdown=True, onerror=None, followlinks=False):
             for file in files[1]:
                 subfolders = [f for f in listdir(path + str(file)) if isdir(join(path + str(file), f))]
                 for subfolder in subfolders:
-                    if subfolder.__contains__(folder_name):
+                    if subfolder.__contains__(folder_name_substring):
                         return subfolder
     except IOError as err:
         print("IO error: {0}".format(err))

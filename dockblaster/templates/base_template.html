@@ -11,51 +11,21 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/DataTable/dataTables.bootstrap.css">
+{#    <link rel="stylesheet" href="/static/Metro/build/css/metro.min.css">#}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script src="/static/jQuery.min.js"></script>
 	<script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/DataTable/datatables.js"></script>
     <script src="/static/DataTable/dataTables.bootstrap.js"></script>
+{#    <script src="/static/Metro/build/js/metro.min.js"></script>#}
 
     <link rel="stylesheet" href="/static/dockblaster.css">
     <script src="/static/dockblaster.js"></script>
 </head>
 <body>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <nav class="navbar navbar-inverse collapse navbar-collapse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/index">DOCK Blaster</a>
-        </div>
-        <ul class="nav navbar-nav">
-            {% if current_user.is_authenticated %}
-                <li><a href= {{ url_for('dock.get_docking_options') }}>Start</a></li>
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        Results
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        {% set JOB_STATUSES = ['All', 'Completed', 'Failed', 'Submitted', 'Partial Results Available', 'Upload in Progress', 'Running', 'Terminated by User', 'Terminated by System', 'Awaiting User Response'] %}
-                        {% for status in JOB_STATUSES %}
-                            <li class="dropdown"><a href={{ url_for('jobresults.render_job_list') }}> {{ status }} </a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endif %}
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            {% if current_user.is_authenticated %}
-                <li id="current_user_name"><a>Hi, {{ current_user.get_username() }} !</a></li>
-                <li><a href={{ url_for('user.on_logout') }}><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
-            {% else %}
-                <li><a href={{ url_for('user.get_signup') }}><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-                <li><a href={{ url_for('user.get_login') }}><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-            {% endif %}
-        </ul>
-      </div>
-    </nav>
+    {% include "navbar.html" %}
     <div>
     </div>
     <div class="container">

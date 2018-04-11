@@ -26,6 +26,11 @@
     padding-bottom:100pt;
 }
 
+#docking_options_container .job-type-grid{
+    min-height: 170pt;
+    max-height: 170pt;
+}
+
 #docking_options_container .link-color{
     color: white;
 }

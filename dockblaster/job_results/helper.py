@@ -32,11 +32,12 @@ def render_job_details(path, results_table, status):
     job_names = dict()
     for user_job in job_data:
         parent_job_folder = user_job.docking_job_id % 10
-        folder_path = str(current_app.config['UPLOAD_FOLDER'])+ "/" + str(parent_job_folder)
+        folder_path = str(current_app.config['UPLOAD_FOLDER']) + str(parent_job_folder)
         for (dirpath, dirnames, filenames) in os.walk(folder_path):
             for dirname in dirnames:
                 if dirname.endswith("_"+str(user_job.docking_job_id)):
                     job_names[dirname] = dict()
+                    job_names[dirname]['job_type'] = dirname.split("_")[0]
                     job_names[dirname]['status'] = user_job.job_status_name
                     job_names[dirname]['memo'] = user_job.memo
                     job_names[dirname]['date_submitted'] = user_job.date_started

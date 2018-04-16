@@ -85,4 +85,4 @@ def submit_docking_data(job_type):
     with open(upload_folder + job_data["job_output"], "w") as fo:
         fo.write(str(""))
         fo.close()
-    return redirect(url_for('jobresults.get_folder_details', path = str(docking_job_id)))
+    return redirect(url_for('jobresults.get_folder_details', job_id = str(docking_job_id)))

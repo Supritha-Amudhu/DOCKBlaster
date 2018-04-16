@@ -20,11 +20,11 @@ def render_job_list():
 
 @blueprint.route('/<path:filter>', methods=['GET'])
 def filter_by_status(filter):
-    if current_user.is_authenticated and (int(current_user.get_id())) == \
-            Docking_Job.query.filter_by(docking_job_id=filter).first().user_id:
-        flash("The path you asked for does not exist.", category='danger')
-        return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
-                               path=filter)
+    # if current_user.is_authenticated and (int(current_user.get_id())) == \
+    #         Docking_Job.query.filter_by(docking_job_id=filter).first().user_id:
+    #     flash("The path you asked for does not exist.", category='danger')
+    #     return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
+    #                            path=filter)
     if filter.capitalize().replace("_", " ") in JOB_STATUSES.values():
         return render_job_details(path='', results_table=True, status=filter.capitalize().replace("_", " "))
 

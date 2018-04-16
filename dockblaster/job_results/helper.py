@@ -21,11 +21,14 @@ def render_job_details(path, results_table, status):
         job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id) \
             .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.job_description,
                          Docking_Job.date_started,
-                         Docking_Job.user_id, Job_Status.job_status_name)
+                         Docking_Job.user_id, Job_Status.job_status_name).filter(Docking_Job.user_id == current_user.get_id())
     else:
         job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id)\
-            .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.job_description, Docking_Job.date_started,
-                     Docking_Job.user_id, Job_Status.job_status_name).filter(Job_Status.job_status_name.like("%"+str(status)+"%"))
+            .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.job_description,
+                         Docking_Job.date_started,
+                         Docking_Job.user_id, Job_Status.job_status_name).filter\
+                        (Job_Status.job_status_name.like("%"+str(status)+"%")).filter\
+                        (Docking_Job.user_id == current_user.get_id())
     job_names = dict()
     for user_job in job_data:
         parent_job_folder = user_job.docking_job_id % 10

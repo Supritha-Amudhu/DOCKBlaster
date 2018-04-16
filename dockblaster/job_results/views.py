@@ -23,21 +23,22 @@ def filter_by_status(filter):
         return render_job_details(path='', results_table=True, status=filter.capitalize().replace("_", " "))
 
 
-@blueprint.route('/<path:path>/<path:file>', methods=['GET'])
-def read_download_job_files(path, file):
-    path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), path) + "/" + file
+@blueprint.route('/<int:job_id>/<path:file>', methods=['GET'])
+def read_download_job_files(job_id, file):
+    path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id) + "/" + file
+    url_path = str(job_id) + "/" + file
     if current_user.is_authenticated:
-        return render_job_folder_details(path)
+        return render_job_folder_details(path, url_path)
     else:
         flash("Job not found.", category='danger')
-        return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results", path=path)
+        return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results", path=job_id)
 
 
-@blueprint.route('/<int:path>', methods=['GET'])
-def get_folder_details(path):
-    path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), path)
+@blueprint.route('/<int:job_id>', methods=['GET'])
+def get_folder_details(job_id):
+    path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id)
     if current_user.is_authenticated:
-            return render_job_folder_details(path)
+        return render_job_folder_details(path, job_id)
     else:
         flash("Job not found.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results", path=path)

@@ -1,8 +1,8 @@
 {% extends "base_template.html" %}
 {% block content %}
     <div class="container" id="dock_results_container">
-        {% if previous_path != "-" %}
-            <a class="back-link" href="/results/{{ previous_path}}">Back</a>
+        {% if previous_path != "back_button" %}
+                <a class="back-link" href="/results/{{ previous_path }}">Back</a>
         {% endif %}
         {% for file in files %}
             {% if not file.startswith(".") %}
@@ -17,11 +17,7 @@
         {% for dir in dirs %}
             <div class = "result-dirs">
                  <i class="glyphicon glyphicon-folder-open dock-results-file-logo"></i>
-                {% if path == "" %}
-                     <a href="/results/{{ dir.split("_")[1] }}">{{ dir }}</a>
-                 {% else %}
-                    <a href="/results/{{ path +"/"+ dir.split("_")[1] }}">{{ dir }}</a>
-                {% endif %}
+                 <a href="{{ request.path }}/{{ dir }}">{{ dir }}</a>
             </div>
         {% endfor %}
     </div>

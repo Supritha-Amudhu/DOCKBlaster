@@ -20,14 +20,14 @@ class Docking_Job(BaseModel, db.Model):
     job_status_id = db.Column(db.Integer, db.ForeignKey('job_status.job_status_id'), nullable=False)
     date_started = db.Column(db.DateTime, nullable=False)
     job_type_id = db.Column(db.Integer, nullable=False)
-    job_description = db.Column(db.String(500), nullable=False)
+    memo = db.Column(db.String(500), nullable=False)
 
-    def __init__(self, user_id, job_status_id, date_started, job_type_id, job_description):
+    def __init__(self, user_id, job_status_id, date_started, job_type_id, memo):
         self.user_id = user_id
         self.job_status_id = job_status_id
         self.date_started = date_started
         self.job_type_id = job_type_id
-        self.job_description = job_description
+        self.memo = memo
 
 
 class Job_Type(BaseModel, db.Model):

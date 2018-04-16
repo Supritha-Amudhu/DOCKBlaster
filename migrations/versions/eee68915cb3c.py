@@ -66,7 +66,7 @@ def upgrade():
                     sa.Column('job_status_id', sa.Integer(), nullable=False),
                     sa.Column('date_started', sa.DateTime(), nullable=False),
                     sa.Column('job_type_id', sa.Integer(), nullable=False),
-                    sa.Column('job_description', sa.String(), nullable=False),
+                    sa.Column('memo', sa.String(), nullable=False),
                     sa.PrimaryKeyConstraint('docking_job_id')
                     )
 

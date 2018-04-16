@@ -4,6 +4,7 @@
 }
 .container{
     overflow: scroll;
+    margin-bottom: 40pt;
 }
 
 /*Footer contents*/
@@ -65,6 +66,16 @@
     background-color: #CDDDDE;
 }
 
+#dock_jobs_container .memo{
+    position: relative;
+    float: right;
+}
+
+#dock_jobs_container #field_values{
+    /*position: relative;*/
+    /*top: -120pt;*/
+}
+
 .back-to-docking-options{
     position: relative;
     left: 10pt;
@@ -119,3 +130,4 @@
 .input-group {
     margin-bottom: 20pt;
 }
+

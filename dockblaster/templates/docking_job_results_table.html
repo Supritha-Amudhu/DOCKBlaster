@@ -6,7 +6,7 @@
                 <tr>
                     <th>File</th>
                     <th>Status</th>
-                    <th>Description</th>
+                    <th>Memo</th>
                     <th>Date Submitted</th>
                 </tr>
             </thead>
@@ -22,7 +22,7 @@
                             {% endif %}
                         </td>
                         <td>{{ value['status'] }}</td>
-                        <td>{{ value['description'] }}</td>
+                        <td>{{ value['memo'] }}</td>
                         <td>{{ value['date_submitted'] }}</td>
                       </tr>
                 {% endfor %}

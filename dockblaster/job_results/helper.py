@@ -27,8 +27,8 @@ def render_job_details(path, results_table, status):
             .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.memo,
                          Docking_Job.date_started,
                          Docking_Job.user_id, Job_Status.job_status_name).filter\
-                        (Job_Status.job_status_name.like("%"+str(status)+"%")).filter\
-                        (Docking_Job.user_id == current_user.get_id())
+                        (Docking_Job.user_id == current_user.get_id(),
+                         Job_Status.job_status_name.like("%" + str(status) + "%"))
     job_names = dict()
     for user_job in job_data:
         parent_job_folder = user_job.docking_job_id % 10

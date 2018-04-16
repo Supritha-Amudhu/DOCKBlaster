@@ -19,12 +19,12 @@ def get_parent_job_folder(path):
 def render_job_details(path, results_table, status):
     if status == 'All' or status == '':
         job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id) \
-            .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.job_description,
+            .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.memo,
                          Docking_Job.date_started,
                          Docking_Job.user_id, Job_Status.job_status_name).filter(Docking_Job.user_id == current_user.get_id())
     else:
         job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id)\
-            .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.job_description,
+            .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.memo,
                          Docking_Job.date_started,
                          Docking_Job.user_id, Job_Status.job_status_name).filter\
                         (Job_Status.job_status_name.like("%"+str(status)+"%")).filter\
@@ -38,7 +38,7 @@ def render_job_details(path, results_table, status):
                 if dirname.endswith("_"+str(user_job.docking_job_id)):
                     job_names[dirname] = dict()
                     job_names[dirname]['status'] = user_job.job_status_name
-                    job_names[dirname]['description'] = user_job.job_description
+                    job_names[dirname]['memo'] = user_job.memo
                     job_names[dirname]['date_submitted'] = user_job.date_started
                     break
             break

@@ -88,16 +88,18 @@ def parse_subfolders_for_folder(path_to_file):
 
 
 """
-    Parse a given directory path and find a string in subfolders
+    Parse a given directory path and find a string in subfolders. This is used to find
+    the job result folder for a particular job.
 """
 def parse_subfolders_find_folder_name(path, folder_name_substring):
     try:
-        for files in os.walk(path, topdown=True, onerror=None, followlinks=False):
-            for file in files[1]:
-                subfolders = [f for f in listdir(path + str(file)) if isdir(join(path + str(file), f))]
-                for subfolder in subfolders:
-                    if subfolder.__contains__(folder_name_substring):
-                        return subfolder
+        file = int(folder_name_substring)%10
+        subfolders = [f for f in listdir(path + str(file)) if isdir(join(path + str(file), f))]
+        for subfolder in subfolders:
+            if str(folder_name_substring) in subfolder:
+                return subfolder
+            else:
+                continue
     except IOError as err:
         print("IO error: {0}".format(err))
     except Exception as e:

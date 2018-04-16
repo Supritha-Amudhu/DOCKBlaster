@@ -41,26 +41,26 @@ def render_job_details(path, results_table, status):
             break
     if results_table:
         return render_template("docking_job_results_table.html", title="DOCK Results List", heading="DOCK Results List",
-                               dirs=job_names, path='', previous_path="-")
+                               dirs=job_names, path='', previous_path="back_button")
     else:
         return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
-                               dirs=job_names, path=path, previous_path = "-")
+                               dirs=job_names, path=path, previous_path = "back_button")
 
 
-def render_job_folder_details(path):
+def render_job_folder_details(path, job_id):
     parent_docking_folder = get_parent_job_folder(path)
-    requested_path = str(current_app.config['UPLOAD_FOLDER']) + str(parent_docking_folder) + "/" + path
-    path_folders = path.split("/")
+    requested_file_system_path = str(current_app.config['UPLOAD_FOLDER']) + str(parent_docking_folder) + "/" + path
+    path_folders = str(job_id).split("/")
     del path_folders[len(path_folders) - 1]
     previous_path = "/".join(path_folders)
-    if (parent_docking_folder != -1 and os.path.exists(requested_path)):
-        if (os.path.isfile(requested_path)):
-            with open(requested_path, 'r') as myfile:
-                return myfile.read()
+    if (parent_docking_folder != -1 and os.path.exists(requested_file_system_path)):
+        if (os.path.isfile(requested_file_system_path)):
+            with open(requested_file_system_path, 'r') as my_file:
+                return my_file.read()
         else:
-            for dirpath, dirnames, filenames in os.walk(str(requested_path)):
+            for dirpath, dirnames, filenames in os.walk(str(requested_file_system_path)):
                 return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
-                                       files=filenames, dirs=dirnames, path=path, previous_path = previous_path)
+                                       files=filenames, dirs=dirnames, path=str(job_id), previous_path = previous_path)
     else:
         flash("The path you asked for does not exist.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",

@@ -122,6 +122,13 @@
     padding-bottom: 100pt;
 }
 
+#dock_results_list_container #job_action_box{
+    margin: 10pt;
+    /*position: relative;*/
+    /*left: 180pt;*/
+    /*top: 33pt;*/
+}
+
 /*Login Page CSS*/
 .login-form {
     margin: 0 auto;

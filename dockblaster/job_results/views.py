@@ -4,7 +4,7 @@
 from flask import Blueprint, render_template, flash, current_app
 from flask_login import current_user
 from dockblaster.dock.helper import parse_subfolders_find_folder_name
-from dockblaster.job_results.helper import render_job_details, render_job_folder_details
+from dockblaster.job_results.helper import render_job_details, render_job_folder_details#, delete_listed_jobs
 from dockblaster.constants import JOB_STATUSES
 from dockblaster.dock.models import Docking_Job
 
@@ -16,6 +16,13 @@ blueprint = Blueprint('jobresults', __name__, url_prefix='/results', static_fold
 def render_job_list():
     if current_user.is_authenticated:
         return render_job_details(path='', results_table=True, status='')
+
+
+@blueprint.route('/delete_jobs', methods=['DELETE'])
+def delete_jobs():
+    if current_user.is_authenticated:
+        # delete_listed_jobs(jobs)
+        return "This was successful. :)"
 
 
 @blueprint.route('/<path:filter>', methods=['GET'])

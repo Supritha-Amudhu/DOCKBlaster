@@ -69,3 +69,6 @@ def render_job_folder_details(path, job_id):
         flash("The path you asked for does not exist.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", heading="DOCK Results",
                                path=path)
+
+
+# def delete_listed_jobs(jobs):

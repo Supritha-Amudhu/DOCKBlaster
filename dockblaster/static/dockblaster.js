@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#dock_results_list_table').DataTable({
-        order: [[1, 'desc']]
+        order: [[2, 'desc']]
     });
 
     // $('a.editor_create').on('click', function (e) {

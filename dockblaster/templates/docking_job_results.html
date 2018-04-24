@@ -4,6 +4,32 @@
         {% if previous_path != "back_button" %}
                 <a class="back-link" href="/results/{{ previous_path }}">Back</a>
         {% endif %}
+        <div class = "thumbnail" id="job_details_box">
+            <div class="row">
+                <div class="col-sm-3">Job Type</div>
+                <div class="col-sm-9"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Job Number</div>
+                <div class="col-sm-9"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Job Status</div>
+                <div class="col-sm-9"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Memo</div>
+                <div class="col-sm-9"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Last Updated</div>
+                <div class="col-sm-9"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Job Type</div>
+                <div class="col-sm-9">Value</div>
+            </div>
+        </div>
         {% for file in files %}
             {% if not file.startswith(".") %}
                 <div class = "result-files">

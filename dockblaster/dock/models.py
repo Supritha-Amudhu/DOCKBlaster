@@ -21,14 +21,20 @@ class Docking_Job(BaseModel, db.Model):
     date_started = db.Column(db.DateTime, nullable=False)
     job_type_id = db.Column(db.Integer, nullable=False)
     memo = db.Column(db.String(500), nullable=False)
+    marked_favorite = db.Column(db.Integer, nullable=False, default=0)
+    deleted = db.Column(db.Boolean, nullable=False, default=False)
 
-    def __init__(self, user_id, job_status_id, date_started, job_type_id, memo):
+    def __init__(self, user_id, job_status_id, date_started, job_type_id, memo, marked_favorite = 0, deleted = False):
         self.user_id = user_id
         self.job_status_id = job_status_id
         self.date_started = date_started
         self.job_type_id = job_type_id
         self.memo = memo
+        self.marked_favorite = marked_favorite
+        self.deleted = deleted
 
+    def update_deleted(self, deleted = False):
+        self.deleted = deleted
 
 class Job_Type(BaseModel, db.Model):
     __tablename__ = 'job_types'

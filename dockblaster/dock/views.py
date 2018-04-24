@@ -44,7 +44,9 @@ def submit_docking_data(job_type):
                                     job_status_id=1,
                                     date_started=date_started,
                                     job_type_id=job_data["job_number"],
-                                    memo=memo)
+                                    memo=memo,
+                                    marked_favorite= 0,
+                                    deleted= False)
     db.session.add(create_job_recipe)
     db.session.flush()
     docking_job_id = create_job_recipe.docking_job_id

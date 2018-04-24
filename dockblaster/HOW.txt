@@ -1,0 +1,18 @@
+Source Virtual Environment:
+
+cd /mnt/nfs/work/chinzo/Projects/BlasterX_supritha/venv/
+source bin/activate
+
+Navigate to Project code:
+
+cd
+
+cd code/DOCKBlaster
+
+Start server with GUnicorn:
+
+screen -dr
+
+gunicorn --bind 0.0.0.0:5000 autoapp:app --workers 2
+
+Ctrl + a, Ctrl + d

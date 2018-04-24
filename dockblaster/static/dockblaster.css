@@ -117,6 +117,10 @@
     font-size: 15pt;
 }
 
+#dock_results_container #job_details_box{
+
+}
+
 /*Docking Results list page*/
 #dock_results_list_container{
     padding-bottom: 100pt;

@@ -12,18 +12,6 @@ $(document).ready(function () {
     //     } );
     // } );
 
-    $('#dock_results_list_table .job-results-check-box').on('click', function(){
-        if($(this).is(':checked')){
-            // alert("Checked !");
-            // $(this).removeClass('selected');
-        }
-        else{
-            // alert("Unchecked !");
-        //     table.$('tr.selected').removeClass('selected');
-        //     $(this).addClass('selected');
-        }
-    });
-
     $('#dock_results_list_container #delete_jobs').on('click', function(){
         var values = new Array();
         $.each($('#dock_results_list_table .job-results-check-box:checked'), function(){
@@ -31,11 +19,18 @@ $(document).ready(function () {
         });
         $.ajax({
             type : "DELETE",
-            url : "/delete_jobs",
-            data: values,
-            contentType: 'application/json;charset=UTF-8',
+            url : "/results/delete_jobs",
+            data: JSON.stringify(values),
+            contentType: 'application/json',
             success: function(result){
-                alert("Success !" +result);
+                // alert("Success !" +result);
+                var table = $('#dock_results_list_table')
+                table.ajax.reload();
+                // $('#dock_results_list_table').ajax.reload();
+                // $('#dock_results_list_table').each(function() {
+                //     dt = $(this).dataTable();
+                //     dt.fnDraw();
+                // });
             },
             error: function(error){
                 // alert("Error! " + error.text());

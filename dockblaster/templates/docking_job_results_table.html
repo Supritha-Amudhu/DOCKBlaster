@@ -12,11 +12,17 @@
                     <th>Job ID</th>
                     <th>Status</th>
                     <th>Memo</th>
-                    <th>Date Submitted</th>
+                    <th>Last Updated</th>
                 </tr>
             </thead>
             <tbody>
                 {% for key, value in dirs.items() %}
+{#                    {% set job_row_data = dict() %}#}
+{#                    {% set x = job_row_data.__setitem__("job_id", key.split("_")[1]) %}#}
+{#                    {% set x = job_row_data.__setitem__('job_type', value['job_type']) %}#}
+{#                    {% set x = job_row_data.__setitem__("job_status", value['status']) %}#}
+{#                    {% set x = job_row_data.__setitem__("memo", value['memo']) %}#}
+{#                    {% set x = job_row_data.__setitem__("last_updated", value['last_updated']) %}#}
                       <tr>
                         <td><input type="checkbox" class="custom-control-input job-results-check-box"
                                    id="{{ key }}" value="{{ key.split("_")[1] }}"
@@ -24,14 +30,17 @@
                         <td>{{ value['job_type'] }}</td>
                         <td>
                             {% if path == "" %}
-                                 <a href="/results/{{ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>
-                             {% else %}
-                                <a href="/results/{{ path +"/"+ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>
+                                 <a href="{{ url_for('jobresults.get_folder_details', job_id = key.split("_")[1]) }}">
+                                     {{ key.split("_")[1] }}
+                                 </a>
+{#                                 <a href="/results/{{ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>#}
+{#                             {% else %}#}
+{#                                <a href="/results/{{ path +"/"+ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>#}
                             {% endif %}
                         </td>
                         <td>{{ value['status'] }}</td>
                         <td>{{ value['memo'] }}</td>
-                        <td>{{ value['date_submitted'] }}</td>
+                        <td>{{ value['last_updated'] }}</td>
                       </tr>
                 {% endfor %}
             </tbody>

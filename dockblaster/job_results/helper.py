@@ -20,7 +20,7 @@ def get_parent_job_folder(path):
 def get_active_jobs_current_user():
     job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id) \
             .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.memo,
-                         Docking_Job.date_started,
+                         Docking_Job.last_updated,
                          Docking_Job.user_id, Job_Status.job_status_name).\
                         filter(Docking_Job.user_id == current_user.get_id()).filter(Docking_Job.deleted == False)
     return job_data
@@ -43,7 +43,7 @@ def render_job_details(path, results_table, status):
                     job_names[dirname]['job_type'] = dirname.split("_")[0]
                     # job_names[dirname]['status'] = user_job.job_status
                     job_names[dirname]['memo'] = user_job.memo
-                    job_names[dirname]['last_updated'] = user_job.date_started
+                    job_names[dirname]['last_updated'] = user_job.last_updated
                     break
             break
     if results_table:
@@ -56,22 +56,17 @@ def render_job_details(path, results_table, status):
 
 def render_job_folder_details(path, job_id):
     job_information_grid = dict()
-    job_data = get_active_jobs_current_user().filter(Docking_Job.docking_job_id == job_id)
+    job_data = get_active_jobs_current_user().filter(Docking_Job.docking_job_id == job_id).first()
     parent_docking_folder = get_parent_job_folder(path)
     requested_file_system_path = str(current_app.config['UPLOAD_FOLDER']) + str(parent_docking_folder) + "/" + path
     path_folders = str(job_id).split("/")
-    job_information_grid['job_type'] = path_folders[0]
+    job_information_grid['job_type'] = path.split("_")[0]
     del path_folders[len(path_folders) - 1]
     previous_path = "/".join(path_folders)
-    print job_data
-    # print job_data.job_id
-    # print job_data.memo
-    # print job_data.last_updated
-    # print job_data.job_status_name
-    job_information_grid['job_number'] = job_id
-    # job_information_grid['job_status'] = job_data.job_status
-    # job_information_grid['memo'] = job_data.memo
-    # job_information_grid['last_updated'] = job_data.last_updated
+    job_information_grid['job_number'] = job_data.docking_job_id
+    job_information_grid['job_status'] = job_data.job_status_name
+    job_information_grid['memo'] = job_data.memo
+    job_information_grid['last_updated'] = job_data.last_updated
     if (parent_docking_folder != -1 and os.path.exists(requested_file_system_path)):
         if (os.path.isfile(requested_file_system_path)):
             with open(requested_file_system_path, 'r') as my_file:
@@ -79,7 +74,8 @@ def render_job_folder_details(path, job_id):
         else:
             for dirpath, dirnames, filenames in os.walk(str(requested_file_system_path)):
                 return render_template("docking_job_results.html", title="DOCK Results",
-                                       files=filenames, dirs=dirnames, path=str(job_id), previous_path = previous_path)
+                                       files=filenames, dirs=dirnames, path=str(job_id), previous_path = previous_path,
+                                       job_information_grid = job_information_grid, data_grid = True)
     else:
         flash("The path you asked for does not exist.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results",
@@ -87,10 +83,11 @@ def render_job_folder_details(path, job_id):
 
 
 def delete_listed_jobs(jobs):
+    delete_status = dict()
     for job_id in jobs:
         docking_job = Docking_Job.query.filter(Docking_Job.docking_job_id == int(job_id)).\
             filter(Docking_Job.user_id == current_user.get_id()).first()
-        docking_job.deleted = True
-        db.session.commit()
         docking_job.update_deleted(True)
-        print docking_job.deleted
+        db.session.commit()
+        delete_status[str(job_id)] = docking_job.deleted
+    return delete_status

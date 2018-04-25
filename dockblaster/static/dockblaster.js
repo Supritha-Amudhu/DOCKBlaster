@@ -3,15 +3,6 @@ $(document).ready(function () {
         order: [[2, 'desc']]
     });
 
-    // $('a.editor_create').on('click', function (e) {
-    //     e.preventDefault();
-    //
-    //     editor.create( {
-    //         title: 'Create new record',
-    //         buttons: 'Add'
-    //     } );
-    // } );
-
     $('#dock_results_list_container #delete_jobs').on('click', function(){
         var values = new Array();
         $.each($('#dock_results_list_table .job-results-check-box:checked'), function(){
@@ -21,19 +12,21 @@ $(document).ready(function () {
             type : "DELETE",
             url : "/results/delete_jobs",
             data: JSON.stringify(values),
-            contentType: 'application/json',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
             success: function(result){
-                // alert("Success !" +result);
-                var table = $('#dock_results_list_table')
-                table.ajax.reload();
-                // $('#dock_results_list_table').ajax.reload();
-                // $('#dock_results_list_table').each(function() {
-                //     dt = $(this).dataTable();
-                //     dt.fnDraw();
-                // });
+                console.log(result);
+                $.each( result, function( key, value ) {
+                    if($('#dock_results_list_table .job-results-check-box:checked').attr('id').includes("_"+key)){
+                        if(value == true){
+                             var row = $('#dock_results_list_table .job-results-check-box:checked').closest('tr').attr('id')
+                             $("#"+row).remove();
+                        }
+                    }
+                });
             },
             error: function(error){
-                // alert("Error! " + error.text());
+                alert("Error! " + error);
             }
         });
 

@@ -38,11 +38,11 @@ def submit_docking_data(job_type):
     counter = 1
     job_data = parse_parameters_file(str(current_app.config['PARSE_FOLDER']) + str(job_type) + "/parameters.json")
     user_id = current_user.get_id()
-    date_started = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    last_updated = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     memo = request.form.get("memo") or "No memo"
     create_job_recipe = Docking_Job(user_id=user_id,
                                     job_status_id=1,
-                                    date_started=date_started,
+                                    last_updated=last_updated,
                                     job_type_id=job_data["job_number"],
                                     memo=memo,
                                     marked_favorite= 0,

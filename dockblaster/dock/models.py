@@ -18,16 +18,16 @@ class Docking_Job(BaseModel, db.Model):
     docking_job_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     job_status_id = db.Column(db.Integer, db.ForeignKey('job_status.job_status_id'), nullable=False)
-    date_started = db.Column(db.DateTime, nullable=False)
+    last_updated = db.Column(db.DateTime, nullable=False)
     job_type_id = db.Column(db.Integer, nullable=False)
     memo = db.Column(db.String(500), nullable=False)
     marked_favorite = db.Column(db.Integer, nullable=False, default=0)
     deleted = db.Column(db.Boolean, nullable=False, default=False)
 
-    def __init__(self, user_id, job_status_id, date_started, job_type_id, memo, marked_favorite = 0, deleted = False):
+    def __init__(self, user_id, job_status_id, last_updated, job_type_id, memo, marked_favorite = 0, deleted = False):
         self.user_id = user_id
         self.job_status_id = job_status_id
-        self.date_started = date_started
+        self.last_updated = last_updated
         self.job_type_id = job_type_id
         self.memo = memo
         self.marked_favorite = marked_favorite

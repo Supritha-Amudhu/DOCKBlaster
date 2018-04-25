@@ -25,9 +25,10 @@
                              <a href="{{ url_for('jobresults.get_folder_details', job_id = key.split("_")[1]) }}">
                                  {{ key.split("_")[1] }}
                              </a>
-                                 <a href="/results/{{ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>
-                             {% else %}
-                                <a href="/results/{{ path +"/"+ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>
+                        {% else %}
+                             <a href="/results/{{ path +"/"+ key.split("_")[1] }}">
+                                 {{ key.split("_")[1] }}
+                             </a>
                         {% endif %}
                     </td>
                     <td>{{ value['status'] }}</td>

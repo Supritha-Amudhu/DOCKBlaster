@@ -1,0 +1,41 @@
+<div class="container" id="dock_results_list_container">
+    <table id="dock_results_list_table" class="table table-striped table-bordered" style="width:100%">
+        <div id="job_action_box">
+            <input type="button" class="btn btn-primary" id="delete_jobs" value="Delete">
+        </div>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Job Type</th>
+                <th>Job ID</th>
+                <th>Status</th>
+                <th>Memo</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in dirs.items() %}
+                  <tr id="row_{{ key }}">
+                    <td><input type="checkbox" class="custom-control-input job-results-check-box"
+                               id="{{ key }}" value="{{ key.split("_")[1] }}"
+                               aria-describedby="fileHelp" name="job_checkboxes"></td>
+                    <td>{{ value['job_type'] }}</td>
+                    <td>
+                        {% if path == "" %}
+                             <a href="{{ url_for('jobresults.get_folder_details', job_id = key.split("_")[1]) }}">
+                                 {{ key.split("_")[1] }}
+                             </a>
+                                 <a href="/results/{{ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>
+                             {% else %}
+                                <a href="/results/{{ path +"/"+ key.split("_")[1] }}">{{ key.split("_")[1] }}</a>
+                        {% endif %}
+                    </td>
+                    <td>{{ value['status'] }}</td>
+                    <td>{{ value['memo'] }}</td>
+                    <td>{{ value['last_updated'] }}</td>
+                  </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>

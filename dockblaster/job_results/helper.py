@@ -41,7 +41,7 @@ def render_job_details(path, results_table, status):
                 if dirname.endswith("_"+str(user_job.docking_job_id)):
                     job_names[dirname] = dict()
                     job_names[dirname]['job_type'] = dirname.split("_")[0]
-                    # job_names[dirname]['status'] = user_job.job_status
+                    job_names[dirname]['status'] = user_job.job_status_name
                     job_names[dirname]['memo'] = user_job.memo
                     job_names[dirname]['last_updated'] = user_job.last_updated
                     break
@@ -63,7 +63,7 @@ def render_job_folder_details(path, job_id):
     job_information_grid['job_type'] = path.split("_")[0]
     del path_folders[len(path_folders) - 1]
     previous_path = "/".join(path_folders)
-    job_information_grid['job_number'] = job_data.docking_job_id
+    job_information_grid['job_number'] = job_id
     job_information_grid['job_status'] = job_data.job_status_name
     job_information_grid['memo'] = job_data.memo
     job_information_grid['last_updated'] = job_data.last_updated

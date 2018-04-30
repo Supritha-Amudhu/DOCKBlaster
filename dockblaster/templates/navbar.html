@@ -45,7 +45,15 @@
                 </ul>
             </li>
             {% if current_user.is_authenticated %}
-                <li id="current_user_name"><a>Hi, {{ current_user.get_username() }} !</a></li>
+                <li id="current_user_name">
+                    <a>
+                        Hi, {{ current_user.get_username() }}
+                        {% if current_user.is_admin() %}
+                            (Admin)
+                        {% endif %}
+                        !
+                    </a>
+                </li>
                 <li><a href={{ url_for('user.on_logout') }}><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
             {% else %}
                 <li><a href={{ url_for('user.get_signup') }}><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>

@@ -36,9 +36,10 @@
     color: white;
 }
 
-#docking_options_container .panel-primary a:hover{
+#docking_options_container a:hover{
     text-decoration: none;
 }
+
 
 #docking_options_container .panel-primary:hover {
     background-color: #9cc2e3;
@@ -120,30 +121,56 @@
 #dock_results_container #job_details_box{
 
 }
+/*Show more CSS*/
+.show-more, .show-more:hover, .show-more:focus {
+    color: #00f;
+    display: inline-block;
+    padding: 0;
+    text-decoration: none;
+    background-color: #fff;
+    border-color: #fff;
+    outline:0;
+}
+.show-more:hover {
+    cursor: pointer;
+}
+.show-more::after{
+    content: "Show more...";
+}
 
-.tooltip {
+.show-more[aria-expanded="true"]::after{
+    content: "Show less...";
+}
+
+/*Tooltip styling */
+/* Tooltip container */
+.tool-tip {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    width: 100%;
+    height: 100%;
 }
 
 /* Tooltip text */
-.tooltip .tooltiptext {
+.tool-tip .tooltip-text {
     visibility: hidden;
-    width: 120px;
+    width: 150px;
     background-color: black;
     color: #fff;
     text-align: center;
-    padding: 5px 0;
+    padding: 5px;
     border-radius: 6px;
+    font-size: 80%;
 
     /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
+    top: -5px;
+    left: 105%;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
+.tool-tip:hover .tooltip-text {
     visibility: visible;
 }
 

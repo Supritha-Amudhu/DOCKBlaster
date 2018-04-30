@@ -1,4 +1,4 @@
-JOB_STATUSES = {0:'All',
+JOB_STATUSES = {0: 'All',
                 1: 'Submitted',
                 2: 'Failed',
                 3: 'Awaiting godot',

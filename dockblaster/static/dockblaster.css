@@ -59,6 +59,11 @@
 }
 
 /*Dock Jobs page*/
+#dock_jobs_container .remove-border{
+    border: None;
+}
+
+
 #dock_jobs_container #description_box{
     padding: 10pt;
     border-radius: 10pt;
@@ -70,11 +75,6 @@
 #dock_jobs_container .memo{
     position: relative;
     float: right;
-}
-
-#dock_jobs_container #field_values{
-    /*position: relative;*/
-    /*top: -120pt;*/
 }
 
 .back-to-docking-options{
@@ -184,6 +184,10 @@
     /*position: relative;*/
     /*left: 180pt;*/
     /*top: 33pt;*/
+}
+
+#dock_results_list_container select[name="dock_results_list_table_length"]{
+    height: 27pt;
 }
 
 /*Login Page CSS*/

@@ -16,7 +16,7 @@ class User(UserMixin, BaseModel):
     admin = db.Column(db.Boolean)
     deleted = db.Column(db.Boolean)
 
-    def __init__(self, first_name, last_name, email, password, date_created, admin, deleted):
+    def __init__(self, first_name, last_name, email, password, date_created, admin = False, deleted = False):
         super(User, self).__init__()
         self.first_name = first_name
         self.last_name = last_name

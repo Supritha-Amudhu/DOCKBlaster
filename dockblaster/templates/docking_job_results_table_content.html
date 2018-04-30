@@ -13,6 +13,7 @@
                 <th>Last Updated</th>
                 {%  if current_user.is_admin()  %}
                     <th>User ID</th>
+                    <th>Job deleted?</th>
                 {%  endif %}
             </tr>
         </thead>
@@ -38,7 +39,8 @@
                     <td>{{ value['memo'] }}</td>
                     <td>{{ value['last_updated'] }}</td>
                     {%  if current_user.is_admin()  %}
-                        <td>User ID</td>
+                        <td>{{ value['user_id'] }}</td>
+                        <td>{{ value['job_deleted'] }}</td>
                     {%  endif %}
                   </tr>
             {% endfor %}

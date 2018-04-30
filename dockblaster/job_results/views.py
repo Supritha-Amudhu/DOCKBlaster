@@ -46,12 +46,13 @@ def filter_by_status(filter):
 @blueprint.route('/<int:job_id>/<path:file>', methods=['GET'])
 def read_download_job_files(job_id, file):
     # Check if the job path is a valid one, if not throw an error to the user
+    admin = current_user.is_admin()
     path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id) + "/" + file
     url_path = str(job_id) + "/" + file
     valid_job = Docking_Job.query.filter_by(docking_job_id=job_id).first()
-    if current_user.is_authenticated and valid_job and \
-            (int(current_user.get_id())) == valid_job.user_id:
-        return render_job_folder_details(path, url_path, 1, current_user.is_admin())
+    if admin or (current_user.is_authenticated and valid_job and \
+            (int(current_user.get_id())) == valid_job.user_id):
+        return render_job_folder_details(path, url_path, 1, admin)
     else:
         flash("Job not found.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", path=job_id)
@@ -60,11 +61,12 @@ def read_download_job_files(job_id, file):
 # Route that displays every job in detail
 @blueprint.route('/<int:job_id>', methods=['GET'])
 def get_folder_details(job_id):
+    admin = current_user.is_admin()
     path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id)
     valid_job = Docking_Job.query.filter_by(docking_job_id=job_id).first()
-    if current_user.is_authenticated and valid_job and\
-            (int(current_user.get_id())) == valid_job.user_id:
-        return render_job_folder_details(path, job_id, 0, current_user.is_admin())
+    if admin or (current_user.is_authenticated and valid_job and\
+            (int(current_user.get_id())) == valid_job.user_id):
+        return render_job_folder_details(path, job_id, 0, admin)
     else:
         flash("Job not found.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", path=path)

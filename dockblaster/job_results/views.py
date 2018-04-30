@@ -32,26 +32,24 @@ def delete_jobs():
 
 
 # Route to filter job results
-# @blueprint.route('/<path:filter>/', methods=['GET'])
 @blueprint.route('/<path:filter>', methods=['GET'])
 def filter_by_status(filter):
-    # if current_user.is_authenticated and (int(current_user.get_id())) == \
-    #         Docking_Job.query.filter_by(docking_job_id=filter).first().user_id:
-    #     flash("The path you asked for does not exist.", category='danger')
-    #     return render_template("docking_job_results.html", title="DOCK Results",
-    #                            path=filter)
     if filter.capitalize().replace("_", " ") in JOB_STATUSES.values():
         return render_job_details(path='', results_table=True, status=filter.capitalize().replace("_", " "))
+    else:
+        flash("Invalid filter.", category='danger')
+        return render_template("docking_job_results.html", title="DOCK Results", path=filter)
 
 
 # Route to navigate to directories and subdirectories within job results
-# @blueprint.route('/<int:job_id>/<path:file>/', methods=['GET'])
 @blueprint.route('/<int:job_id>/<path:file>', methods=['GET'])
 def read_download_job_files(job_id, file):
+    # Check if the job path is a valid one, if not throw an error to the user
     path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id) + "/" + file
     url_path = str(job_id) + "/" + file
-    if current_user.is_authenticated and (int(current_user.get_id())) == \
-            Docking_Job.query.filter_by(docking_job_id=job_id).first().user_id:
+    valid_job = Docking_Job.query.filter_by(docking_job_id=job_id).first()
+    if current_user.is_authenticated and valid_job and \
+            (int(current_user.get_id())) == valid_job.user_id:
         return render_job_folder_details(path, url_path, 1)
     else:
         flash("Job not found.", category='danger')
@@ -59,12 +57,12 @@ def read_download_job_files(job_id, file):
 
 
 # Route that displays every job in detail
-# @blueprint.route('/<int:job_id>/', methods=['GET'])
 @blueprint.route('/<int:job_id>', methods=['GET'])
 def get_folder_details(job_id):
     path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id)
-    if current_user.is_authenticated and (int(current_user.get_id())) == \
-            Docking_Job.query.filter_by(docking_job_id = job_id).first().user_id:
+    valid_job = Docking_Job.query.filter_by(docking_job_id=job_id).first()
+    if current_user.is_authenticated and valid_job and\
+            (int(current_user.get_id())) == valid_job.user_id:
         return render_job_folder_details(path, job_id, 0)
     else:
         flash("Job not found.", category='danger')

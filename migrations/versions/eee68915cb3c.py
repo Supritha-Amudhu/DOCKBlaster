@@ -56,6 +56,8 @@ def upgrade():
                     sa.Column('email', sa.String(), nullable=False),
                     sa.Column('password', sa.String(), nullable=False),
                     sa.Column('date_created', sa.DateTime(), nullable=False),
+                    sa.Column('admin', sa.Boolean, nullable=False),
+                    sa.Column('deleted', sa.Boolean, nullable=False),
                     sa.PrimaryKeyConstraint('user_id'),
                     sa.UniqueConstraint('email')
                     )

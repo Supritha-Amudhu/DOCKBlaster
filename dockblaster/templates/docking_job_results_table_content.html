@@ -11,6 +11,9 @@
                 <th>Status</th>
                 <th>Memo</th>
                 <th>Last Updated</th>
+                {%  if current_user.is_admin()  %}
+                    <th>User ID</th>
+                {%  endif %}
             </tr>
         </thead>
         <tbody>
@@ -34,9 +37,11 @@
                     <td>{{ value['status'] }}</td>
                     <td>{{ value['memo'] }}</td>
                     <td>{{ value['last_updated'] }}</td>
+                    {%  if current_user.is_admin()  %}
+                        <td>User ID</td>
+                    {%  endif %}
                   </tr>
             {% endfor %}
         </tbody>
     </table>
-
 </div>

@@ -13,14 +13,18 @@ class User(UserMixin, BaseModel):
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(128))
     date_created = db.Column(db.DateTime)
+    admin = db.Column(db.Boolean)
+    deleted = db.Column(db.Boolean)
 
-    def __init__(self, first_name, last_name, email, password, date_created):
+    def __init__(self, first_name, last_name, email, password, date_created, admin, deleted):
         super(User, self).__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.set_password(password)
         self.date_created = date_created
+        self.admin = admin
+        self.deleted = deleted
 
     def __repr__(self):
         return "<User: {}".format(self.first_name)
@@ -30,6 +34,12 @@ class User(UserMixin, BaseModel):
 
     def get_username(self):
         return self.first_name
+
+    def is_admin(self):
+        return self.admin
+
+    def is_active_user(self):
+        return not self.deleted
 
     def get_email(self):
         return self.email

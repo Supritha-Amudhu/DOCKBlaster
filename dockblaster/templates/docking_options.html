@@ -8,17 +8,20 @@
                 </div>
                 <div class="row grid-specs metro">
             {% endif %}
-                <div class="col-sm-3">
-                    <div class="panel panel-primary job-type-grid">
-                        <div class="panel-heading">
-                            <a class="link-color tile" href="{{ url_for('dock.get_job_type', job_type=job_data["job_type_name"]) }}">
+                <div class="col-md-3 col-lg-3">
+                    <a class="link-color tile" href="{{ url_for('dock.get_job_type', job_type=job_data["job_type_name"]) }}">
+                        <div class="panel panel-primary job-type-grid">
+                            <div class="panel-heading">
                                 <h4 class="title">{{ job_data["job_type_name"] }}</h4>
-                                </div>
-                                <div class="panel-body grid-specs">
-                                   {{ job_data["job_description"] }}
-                                </div>
-                            </a>
-                    </div>
+                            </div>
+                            <div class="panel-body grid-specs tool-tip">
+                               {{ job_data["job_description"] }}
+                                <span class="tooltip-text">
+                                    {{ job_data["job_description"] }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 {% set counter = loop.index %}
           {% endfor %}

@@ -54,16 +54,20 @@ def render_job_details(path, results_table, status):
                                dirs=job_names, path=path, previous_path = "back_button")
 
 
-def render_job_folder_details(path, job_id):
+def render_job_folder_details(path, job_id, level):
     job_information_grid = dict()
-    job_data = get_active_jobs_current_user().filter(Docking_Job.docking_job_id == job_id).first()
+    if (level != 0):
+        job_id_database = str(job_id).split("/")[0]
+        job_data = get_active_jobs_current_user().filter(Docking_Job.docking_job_id == job_id_database).first()
+    else:
+        job_data = get_active_jobs_current_user().filter(Docking_Job.docking_job_id == job_id).first()
     parent_docking_folder = get_parent_job_folder(path)
     requested_file_system_path = str(current_app.config['UPLOAD_FOLDER']) + str(parent_docking_folder) + "/" + path
     path_folders = str(job_id).split("/")
     job_information_grid['job_type'] = path.split("_")[0]
     del path_folders[len(path_folders) - 1]
     previous_path = "/".join(path_folders)
-    job_information_grid['job_number'] = job_id
+    job_information_grid['job_number'] = job_data.docking_job_id
     job_information_grid['job_status'] = job_data.job_status_name
     job_information_grid['memo'] = job_data.memo
     job_information_grid['last_updated'] = job_data.last_updated

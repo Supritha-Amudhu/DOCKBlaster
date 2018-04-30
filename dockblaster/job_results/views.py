@@ -13,6 +13,7 @@ blueprint = Blueprint('jobresults', __name__, url_prefix='/results', static_fold
 
 # Route that maps to the index os search results table
 @blueprint.route('/', methods=['GET'])
+@blueprint.route('/all/', methods=['GET'])
 @blueprint.route('/all', methods=['GET'])
 def render_job_list():
     if current_user.is_authenticated:
@@ -31,6 +32,7 @@ def delete_jobs():
 
 
 # Route to filter job results
+# @blueprint.route('/<path:filter>/', methods=['GET'])
 @blueprint.route('/<path:filter>', methods=['GET'])
 def filter_by_status(filter):
     # if current_user.is_authenticated and (int(current_user.get_id())) == \
@@ -43,25 +45,27 @@ def filter_by_status(filter):
 
 
 # Route to navigate to directories and subdirectories within job results
+# @blueprint.route('/<int:job_id>/<path:file>/', methods=['GET'])
 @blueprint.route('/<int:job_id>/<path:file>', methods=['GET'])
 def read_download_job_files(job_id, file):
     path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id) + "/" + file
     url_path = str(job_id) + "/" + file
     if current_user.is_authenticated and (int(current_user.get_id())) == \
             Docking_Job.query.filter_by(docking_job_id=job_id).first().user_id:
-        return render_job_folder_details(path, url_path)
+        return render_job_folder_details(path, url_path, 1)
     else:
         flash("Job not found.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", path=job_id)
 
 
 # Route that displays every job in detail
+# @blueprint.route('/<int:job_id>/', methods=['GET'])
 @blueprint.route('/<int:job_id>', methods=['GET'])
 def get_folder_details(job_id):
     path = parse_subfolders_find_folder_name(str(current_app.config['UPLOAD_FOLDER']), job_id)
     if current_user.is_authenticated and (int(current_user.get_id())) == \
             Docking_Job.query.filter_by(docking_job_id = job_id).first().user_id:
-        return render_job_folder_details(path, job_id)
+        return render_job_folder_details(path, job_id, 0)
     else:
         flash("Job not found.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", path=path)

@@ -17,8 +17,14 @@ def get_parent_job_folder(path):
 
 
 # A helper method that retrieves all the jobs created by the current user
-def get_active_jobs_current_user():
-    job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id) \
+def get_active_jobs_current_user(admin):
+    if admin:
+        job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id) \
+            .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.memo,
+                         Docking_Job.last_updated, Docking_Job.user_id, Docking_Job.deleted,
+                         Job_Status.job_status_name)
+    else:
+        job_data = Docking_Job.query.join(Job_Status, Docking_Job.job_status_id == Job_Status.job_status_id) \
             .add_columns(Docking_Job.docking_job_id, Docking_Job.job_status_id, Docking_Job.memo,
                          Docking_Job.last_updated,
                          Docking_Job.user_id, Job_Status.job_status_name).\
@@ -26,11 +32,11 @@ def get_active_jobs_current_user():
     return job_data
 
 
-def render_job_details(path, results_table, status):
+def render_job_details(path, results_table, status, admin):
     if status == 'All' or status == '':
-        job_data = get_active_jobs_current_user()
+        job_data = get_active_jobs_current_user(admin)
     else:
-        job_data = get_active_jobs_current_user().filter(
+        job_data = get_active_jobs_current_user(admin).filter(
                          Job_Status.job_status_name.like("%" + str(status) + "%"))
     job_names = dict()
     for user_job in job_data:
@@ -44,6 +50,9 @@ def render_job_details(path, results_table, status):
                     job_names[dirname]['status'] = user_job.job_status_name
                     job_names[dirname]['memo'] = user_job.memo
                     job_names[dirname]['last_updated'] = user_job.last_updated
+                    if admin:
+                        job_names[dirname]['user_id'] = user_job.user_id
+                        job_names[dirname]['job_deleted'] = user_job.deleted
                     break
             break
     if results_table:
@@ -54,13 +63,13 @@ def render_job_details(path, results_table, status):
                                dirs=job_names, path=path, previous_path = "back_button")
 
 
-def render_job_folder_details(path, job_id, level):
+def render_job_folder_details(path, job_id, level, admin):
     job_information_grid = dict()
     if (level != 0):
         job_id_database = str(job_id).split("/")[0]
-        job_data = get_active_jobs_current_user().filter(Docking_Job.docking_job_id == job_id_database).first()
+        job_data = get_active_jobs_current_user(admin).filter(Docking_Job.docking_job_id == job_id_database).first()
     else:
-        job_data = get_active_jobs_current_user().filter(Docking_Job.docking_job_id == job_id).first()
+        job_data = get_active_jobs_current_user(admin).filter(Docking_Job.docking_job_id == job_id).first()
     parent_docking_folder = get_parent_job_folder(path)
     requested_file_system_path = str(current_app.config['UPLOAD_FOLDER']) + str(parent_docking_folder) + "/" + path
     path_folders = str(job_id).split("/")

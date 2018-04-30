@@ -17,7 +17,7 @@ blueprint = Blueprint('jobresults', __name__, url_prefix='/results', static_fold
 @blueprint.route('/all', methods=['GET'])
 def render_job_list():
     if current_user.is_authenticated:
-        return render_job_details(path='', results_table=True, status='')
+        return render_job_details(path='', results_table=True, status='', admin = current_user.is_admin())
 
 
 # Route to delete jobs
@@ -35,7 +35,8 @@ def delete_jobs():
 @blueprint.route('/<path:filter>', methods=['GET'])
 def filter_by_status(filter):
     if filter.capitalize().replace("_", " ") in JOB_STATUSES.values():
-        return render_job_details(path='', results_table=True, status=filter.capitalize().replace("_", " "))
+        return render_job_details(path='', results_table=True, status=filter.capitalize().replace("_", " "),
+                                  admin = current_user.is_admin())
     else:
         flash("Invalid filter.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", path=filter)
@@ -50,7 +51,7 @@ def read_download_job_files(job_id, file):
     valid_job = Docking_Job.query.filter_by(docking_job_id=job_id).first()
     if current_user.is_authenticated and valid_job and \
             (int(current_user.get_id())) == valid_job.user_id:
-        return render_job_folder_details(path, url_path, 1)
+        return render_job_folder_details(path, url_path, 1, current_user.is_admin())
     else:
         flash("Job not found.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", path=job_id)
@@ -63,7 +64,7 @@ def get_folder_details(job_id):
     valid_job = Docking_Job.query.filter_by(docking_job_id=job_id).first()
     if current_user.is_authenticated and valid_job and\
             (int(current_user.get_id())) == valid_job.user_id:
-        return render_job_folder_details(path, job_id, 0)
+        return render_job_folder_details(path, job_id, 0, current_user.is_admin())
     else:
         flash("Job not found.", category='danger')
         return render_template("docking_job_results.html", title="DOCK Results", path=path)

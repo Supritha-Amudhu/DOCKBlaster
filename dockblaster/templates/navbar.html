@@ -20,7 +20,7 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        {% set JOB_STATUSES = ['All', 'Completed', 'Failed', 'Submitted', 'Partial Results Available', 'Upload in Progress', 'Running', 'Terminated by User', 'Terminated by System', 'Awaiting User Response'] %}
+                        {% set JOB_STATUSES = ['All', 'Submitted', 'Failed', 'Awaiting godot', 'Partial results available', 'Upload in progress', 'Running', 'Terminated by User', 'Terminated by System', 'Awaiting User Response', 'Completed'] %}
                         {% for status in JOB_STATUSES %}
                             <li class="dropdown"><a href={{ url_for("jobresults.filter_by_status", filter = status.lower()|replace(" ", "_")) }}>
                                 {{ status }} </a></li>

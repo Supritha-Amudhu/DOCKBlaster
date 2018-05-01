@@ -16,7 +16,8 @@ blueprint = Blueprint('dock', __name__, url_prefix='/', static_folder='../static
 def get_docking_options():
     job_data = parse_parameters_file_recursive(str(current_app.config['PARSE_FOLDER']))
     return render_template("docking_options.html", title="Docking options", heading="Action?",
-                           job_data=job_data)
+                           job_data=job_data, sub_heading_link_text = "How does this work?",
+                           sub_heading_link = "http://wiki.docking.org/index.php/Blaster18")
 
 
 @blueprint.route('start/<job_type>', methods=['GET'])

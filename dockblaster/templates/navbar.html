@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
+  <div class="container-fluid" id="navbar_container">
     <div class="navbar-header">
         <a class="navbar-brand" href="/index">DOCK Blaster</a>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#dockBlasterNav"
@@ -11,7 +11,7 @@
         </button>
     </div>
     <div class="collapse navbar-collapse" id="dockBlasterNav">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav horizontal-menu">
             {% if current_user.is_authenticated %}
                 <li><a href= {{ url_for('dock.get_docking_options') }}>Start</a></li>
                 <li>
@@ -19,7 +19,7 @@
                         Results
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul class="dropdown-menu" data-role="dropdown">
                         {% set JOB_STATUSES = ['All', 'Submitted', 'Failed', 'Awaiting godot', 'Partial results available', 'Upload in progress', 'Running', 'Terminated by User', 'Terminated by System', 'Awaiting User Response', 'Completed'] %}
                         {% for status in JOB_STATUSES %}
                             <li class="dropdown"><a href={{ url_for("jobresults.filter_by_status", filter = status.lower()|replace(" ", "_")) }}>
@@ -35,13 +35,14 @@
                    role="button" aria-haspopup="true" aria-expanded="false">
                   About <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Dockblaster - About</a></li>
-                    <li><a href="#">Dockblaster - Help</a></li>
+                <ul class="dropdown-menu" data-role="dropdown">
+                    <li class="dropdown-header">About Us</li>
+                    <li><a href="http://wiki.docking.org/index.php/Blaster18:about" target="_blank">About</a></li>
+                    <li><a href="http://wiki.docking.org/index.php/Blaster18:credit" target="_blank">Credit</a></li>
+                    <li><a href="http://wiki.docking.org/index.php/Blaster18:usage" target="_blank">Usage</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Acknowledgement</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Contact us</a></li>
+                    <li class="dropdown-header">Get Help</li>
+                    <li><a href="http://wiki.docking.org/index.php/Blaster18:help" target="_blank">Help</a></li>
                 </ul>
             </li>
             {% if current_user.is_authenticated %}

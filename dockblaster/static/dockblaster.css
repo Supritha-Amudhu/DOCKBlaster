@@ -7,6 +7,11 @@
     margin-bottom: 40pt;
 }
 
+.container .custom-sub-heading{
+    color: #B56E96;
+}
+
+
 /*Footer contents*/
 .footer{
     clear: both;
@@ -19,6 +24,10 @@
     bottom: 0pt;
     left: 0pt;
     margin-bottom: 0pt;
+}
+
+#navbar_container{
+    font-size: 90%;
 }
 
 /*Docking Options - Start page container*/

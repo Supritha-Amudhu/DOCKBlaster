@@ -18,7 +18,7 @@
     <script src="/static/DataTable/datatables.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/DataTable/dataTables.bootstrap.js"></script>
-{#    <script src="/static/Metro/build/js/metro.min.js"></script>#}
+    <script src="/static/Metro/build/js/metro.min.js"></script>
 
     <link rel="stylesheet" href="/static/dockblaster.css">
     <script src="/static/dockblaster.js"></script>
@@ -45,10 +45,16 @@
 
       {% if heading %}
           <div class="page-header">
-          <h1> {{ heading.upper() }} </h1>
-          {% if sub_heading %}
-            <h4>{{ sub_heading }}</h4>
-          {% endif %}
+              <h1>
+                  {{ heading.upper() }}
+              </h1>
+              <span>
+                  {% if sub_heading %}
+                    <h4 class="custom-sub-heading">{{ sub_heading }}</h4>
+                  {% elif sub_heading_link_text %}
+                      <h4><a href="{{ sub_heading_link }}" target="_blank" class="custom-sub-heading">{{ sub_heading_link_text }}</a></h4>
+                  {% endif %}
+              </span>
           </div>
       {% endif %}
       <p>

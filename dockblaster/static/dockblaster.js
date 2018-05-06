@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#dock_results_list_table').DataTable({
+    var dock_results_table = $('#dock_results_list_table').DataTable({
         order: [[2, 'desc']]
     });
 
@@ -17,19 +17,19 @@ $(document).ready(function () {
             success: function(result){
                 console.log(result);
                 $.each( result, function( key, value ) {
-                    if($('#dock_results_list_table .job-results-check-box:checked').attr('id').includes("_"+key)){
-                        if(value == true){
-                             var row = $('#dock_results_list_table .job-results-check-box:checked').closest('tr').attr('id')
-                             $("#"+row).remove();
-                        }
-                    }
+                    $('#dock_results_list_table .job-results-check-box:checked').each(function(index,obj){
+                       if($(obj).attr('id').contains("_"+key) && value == true) {
+                           var tableRow = $(obj).closest('tr');
+                           console.log("Deleting "+$(tableRow).attr('id'));
+                            dock_results_table.row(tableRow).remove().draw();
+                       }
+                    });
                 });
             },
             error: function(error){
                 alert("Error! " + error);
             }
         });
-
     });
     $('[data-toggle="tooltip"]').tooltip();
 });

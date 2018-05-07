@@ -19,6 +19,9 @@ class Config(object):
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_POOL_SIZE = 20
+    SQLALCHEMY_MAX_OVERFLOW = 5
+    SQLALCHEMY_POOL_TIMEOUT = 10
     UPLOAD_FOLDER = '/nfs/ex7/blaster/jobs/'
     PARSE_FOLDER = '/nfs/ex7/blaster/templates/'
     DEBUG = True

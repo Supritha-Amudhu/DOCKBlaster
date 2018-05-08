@@ -1,0 +1,89 @@
+{% extends "public/base_template.html" %}
+{% block content %}
+    <div class="container" id="dock_results_container">
+        {% if previous_path != "back_button" %}
+            <div class="col-md-12 col-lg-12">
+                <a class="back-link" href="/results/{{ previous_path }}">Back</a>
+            </div>
+        {% endif %}
+        {% if errors != True %}
+            {% if data_grid %}
+                <div class="col-md-7 col-lg-7" id="job_details_box">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Job Details
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2 col-lg-2 " align="center">
+                                    <h3># {{ job_information_grid['job_number'] }}</h3>
+                                </div>
+                                <div class=" col-md-10 col-lg-10 ">
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                        <tr>
+                                            <td class="col-md-3 col-lg-3"><strong>Job Type</strong></td>
+                                            <td>{{ job_information_grid['job_type'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-3 col-lg-3"><strong>Job Number</strong></td>
+                                            <td>{{ job_information_grid['job_number'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-3 col-lg-3"><strong>Job Status</strong></td>
+                                            <td>{{ job_information_grid['job_status'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-3 col-lg-3"><strong>Memo</strong></td>
+                                            <td>{{ job_information_grid['memo'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-3 col-lg-3"><strong>Last Updated</strong></td>
+                                            <td>{{ job_information_grid['last_updated'] }}</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-md-5 col-lg-5">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Files</div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            {% for file in files %}
+                                {% if not file.startswith(".") %}
+                                    <div class="list-group-item result-files">
+                                        <i class="glyphicon glyphicon-file dock-results-file-logo"></i>
+                                        {{ file }}
+                                        <span class="pull-right ml-4 text-muted">
+                                            <a href="/results/{{ path + "/" + file }}" target="_blank">
+                                                <i class="glyphicon glyphicon-new-window"></i>
+                                            </a>
+                                        </span>
+                                        <span class="pull-right text-muted">
+                                            <a href="/results/{{ path + "/" + file }}" download>
+                                                <i class="glyphicon glyphicon-download-alt"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            {% for dir in dirs %}
+                                <div class="list-group-item result-dirs">
+                                    <i class="glyphicon glyphicon-folder-open dock-results-file-logo"></i>
+                                    <a href="{{ request.path }}/{{ dir }}">{{ dir }}</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

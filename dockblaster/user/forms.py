@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, ValidationError
 from wtforms.fields.html5 import EmailField
 
 from .models import User
@@ -14,11 +14,16 @@ class LoginForm(FlaskForm):
 
     def validate(self):
         user = User.query.filter_by(email=self.email.data).first()
-        # if not user:
-        #     self.email.errors += ('Email not registered.', )
-        #     return False
+        if not user:
+            self.email.errors += ('Email not registered.', )
+            return False
         return True
 
+    def validate_username(self, email):
+        if email.data != self.email:
+            user = User.query.filter_by(username=self.email.data).first()
+            if user is not None:
+                raise ValidationError('Please use a different username.')
 
 class SignUpForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])

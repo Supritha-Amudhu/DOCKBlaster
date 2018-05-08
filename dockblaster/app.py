@@ -10,6 +10,10 @@ def create_app(config_object=ProdConfig):
     """
     app = Flask(__name__.split('.')[0])
     app.config.from_object(config_object)
+
+    from dockblaster.errors import errors_blueprint
+    app.register_blueprint(errors_blueprint)
+
     register_extensions(app)
     register_blueprints(app)
     return app
@@ -28,3 +32,4 @@ def register_blueprints(app):
     app.register_blueprint(dock.views.blueprint)
     app.register_blueprint(job_results.views.blueprint)
     return None
+

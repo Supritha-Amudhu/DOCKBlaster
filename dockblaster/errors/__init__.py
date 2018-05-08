@@ -3,7 +3,6 @@ from flask import Blueprint
 errors_blueprint = Blueprint('errors', __name__)
 
 from flask import render_template
-from autoapp import app
 
 #
 # # @errors_blueprint.app_errorhandler(404)
@@ -14,6 +13,7 @@ from autoapp import app
 # @errors_blueprint.app_errorhandler(500)
 # def internal_server_error(error):
 #     return render_template('error_pages/page_not_found.html'), 500
+
 
 @errors_blueprint.app_errorhandler(404)
 @errors_blueprint.app_errorhandler(500)

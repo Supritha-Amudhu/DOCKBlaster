@@ -2,30 +2,15 @@ from flask import Blueprint, render_template, flash, redirect, request, current_
 from flask_login import current_user
 from dockblaster.database import db
 import os, os.path
-from dockblaster.dock import helper
-from dockblaster.dock.helper import parse_parameters_file, parse_parameters_file_recursive, parse_subfolders_for_folder
+from dockblaster.dock_jobs import helper
+from dockblaster.dock_jobs.helper import parse_parameters_file, parse_parameters_file_recursive, parse_subfolders_for_folder
 from .models import Docking_Job
 import datetime
 import subprocess
 from subprocess import call
-# from dockblaster.errors import errors_blueprint
-# from dockblaster.errors import *
-
 
 
 blueprint = Blueprint('dock', __name__, url_prefix='/', static_folder='../static')
-
-
-@blueprint.route('error', methods=['GET'])
-def display_error():
-    return render_template("error_pages/page_not_found.html");
-
-
-@blueprint.app_errorhandler(500)
-@blueprint.errorhandler(500)
-# @errors_blueprint.app_errorhandler(500)
-def internal_server_error(error):
-    return render_template('error_pages/page_not_found.html'), 500
 
 
 @blueprint.route('start', methods=['GET'])

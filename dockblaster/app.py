@@ -1,7 +1,7 @@
 from flask import Flask
 from .settings import ProdConfig
 from .extensions import db, login_manager, migrate
-import user, public, dock, job_results
+import user, public, dock_jobs, docking_results
 
 
 def create_app(config_object=ProdConfig):
@@ -29,7 +29,7 @@ def register_blueprints(app):
     """Register Flask blueprints."""
     app.register_blueprint(user.views.blueprint)
     app.register_blueprint(public.views.blueprint)
-    app.register_blueprint(dock.views.blueprint)
-    app.register_blueprint(job_results.views.blueprint)
+    app.register_blueprint(dock_jobs.views.blueprint)
+    app.register_blueprint(docking_results.views.blueprint)
     return None
 

@@ -1,4 +1,4 @@
-from dockblaster.dock.models import Docking_Job, Job_Status
+from dockblaster.dock_jobs.models import Docking_Job, Job_Status
 from flask import render_template, flash, current_app
 from flask_login import current_user
 import os

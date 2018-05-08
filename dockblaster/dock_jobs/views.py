@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, flash, redirect, request, current_
 from flask_login import current_user
 from dockblaster.database import db
 import os, os.path
-from dockblaster.dock import helper
-from dockblaster.dock.helper import parse_parameters_file, parse_parameters_file_recursive, parse_subfolders_for_folder
+from dockblaster.dock_jobs import helper
+from dockblaster.dock_jobs.helper import parse_parameters_file, parse_parameters_file_recursive, parse_subfolders_for_folder
 from .models import Docking_Job
 import datetime
 import subprocess

@@ -3,10 +3,10 @@
 
 from flask import Blueprint, render_template, flash, current_app, request, json, jsonify
 from flask_login import current_user
-from dockblaster.dock.helper import parse_subfolders_find_folder_name
-from dockblaster.job_results.helper import render_job_details, render_job_folder_details, delete_listed_jobs
+from dockblaster.dock_jobs.helper import parse_subfolders_find_folder_name
+from dockblaster.docking_results.helper import render_job_details, render_job_folder_details, delete_listed_jobs
 from dockblaster.constants import JOB_STATUSES
-from dockblaster.dock.models import Docking_Job
+from dockblaster.dock_jobs.models import Docking_Job
 
 blueprint = Blueprint('jobresults', __name__, url_prefix='/results', static_folder='../static')
 

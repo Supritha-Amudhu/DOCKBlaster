@@ -39,7 +39,7 @@ def filter_by_status(filter):
                                   admin = current_user.is_admin())
     else:
         flash("Invalid filter.", category='danger')
-        return render_template("docking_job_results.html", title="DOCK Results", path=filter)
+        return render_template("docking_results/docking_job_results.html", title="DOCK Results", path=filter, errors=True)
 
 
 # Route to navigate to directories and subdirectories within job results
@@ -55,7 +55,7 @@ def read_download_job_files(job_id, file):
         return render_job_folder_details(path, url_path, 1, admin)
     else:
         flash("Job not found.", category='danger')
-        return render_template("docking_job_results.html", title="DOCK Results", path=job_id)
+        return render_template("docking_results/docking_job_results.html", title="DOCK Results", path=job_id, errors=True)
 
 
 # Route that displays every job in detail
@@ -69,6 +69,6 @@ def get_folder_details(job_id):
         return render_job_folder_details(path, job_id, 0, admin)
     else:
         flash("Job not found.", category='danger')
-        return render_template("docking_job_results.html", title="DOCK Results", path=path)
+        return render_template("docking_results/docking_job_results.html", title="DOCK Results", path=path, errors=True)
 
 

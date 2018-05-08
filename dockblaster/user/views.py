@@ -17,7 +17,7 @@ def get_login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
         return redirect(url_for('public.index'))
-    return render_template("login.html", title="Login", heading ="LOGIN", login_form=login_form)
+    return render_template("user/login.html", title="Login", heading ="LOGIN", login_form=login_form)
 
 
 @blueprint.route('login', methods=['POST'])
@@ -27,11 +27,11 @@ def on_login_submit():
         user = User.query.filter_by(email=login_form.email.data).first()
         if user is None or not user.check_password(login_form.password.data):
             flash("Invalid Email or Password", category='danger')
-            return render_template("login.html", title="Login", heading="LOGIN", login_form=login_form)
+            return render_template("user/login.html", title="Login", heading="LOGIN", login_form=login_form)
         login_user(user, remember=login_form.remember_me.data)
         flash("Logged in successfully", category='success')
         return redirect(url_for('public.index'))
-    return render_template("login.html", title="Login", heading="LOGIN", login_form=login_form)
+    return render_template("user/login.html", title="Login", heading="LOGIN", login_form=login_form)
 
 
 @blueprint.route('logout', methods=['GET','POST'])
@@ -47,7 +47,7 @@ def get_signup():
     if sign_up_form.validate_on_submit():
         return redirect(url_for('public.index'))
     else:
-        return render_template("sign_up.html", title="Sign Up", heading="Sign Up", form=sign_up_form)
+        return render_template("user/sign_up.html", title="Sign Up", heading="Sign Up", form=sign_up_form)
 
 
 @blueprint.route('sign_up', methods=['POST'])

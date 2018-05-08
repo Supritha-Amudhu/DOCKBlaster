@@ -56,10 +56,10 @@ def render_job_details(path, results_table, status, admin):
                     break
             break
     if results_table:
-        return render_template("docking_job_results_table.html", title="DOCK Results List",
+        return render_template("docking_results/docking_job_results_table.html", title="DOCK Results List",
                                dirs=job_names, path='', previous_path="back_button")
     else:
-        return render_template("docking_job_results.html", title="DOCK Results",
+        return render_template("docking_results/docking_job_results.html", title="DOCK Results",
                                dirs=job_names, path=path, previous_path = "back_button")
 
 
@@ -86,12 +86,12 @@ def render_job_folder_details(path, job_id, level, admin):
                 return my_file.read()
         else:
             for dirpath, dirnames, filenames in os.walk(str(requested_file_system_path)):
-                return render_template("docking_job_results.html", title="DOCK Results",
+                return render_template("docking_results/docking_job_results.html", title="DOCK Results",
                                        files=filenames, dirs=dirnames, path=str(job_id), previous_path = previous_path,
                                        job_information_grid = job_information_grid, data_grid = True)
     else:
         flash("The path you asked for does not exist.", category='danger')
-        return render_template("docking_job_results.html", title="DOCK Results",
+        return render_template("docking_results/docking_job_results.html", title="DOCK Results",
                                path=path)
 
 

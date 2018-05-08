@@ -8,24 +8,9 @@ from .models import Docking_Job
 import datetime
 import subprocess
 from subprocess import call
-# from dockblaster.errors import errors_blueprint
-# from dockblaster.errors import *
-
 
 
 blueprint = Blueprint('dock', __name__, url_prefix='/', static_folder='../static')
-
-
-@blueprint.route('error', methods=['GET'])
-def display_error():
-    return render_template("error_pages/page_not_found.html");
-
-
-@blueprint.app_errorhandler(500)
-@blueprint.errorhandler(500)
-# @errors_blueprint.app_errorhandler(500)
-def internal_server_error(error):
-    return render_template('error_pages/page_not_found.html'), 500
 
 
 @blueprint.route('start', methods=['GET'])

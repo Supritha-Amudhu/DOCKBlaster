@@ -144,6 +144,25 @@
 #dock_results_container #job_details_box{
 
 }
+#dock_results_container .file-preview .popover {
+    max-width: 40%;
+    max-height: 50%;
+    word-wrap: break-word;
+}
+
+#dock_results_container .file-preview .popover:before {
+    content:"File Preview";
+    font-family: inherit;
+    font-size: 15pt;
+    color: #31708f;
+}
+
+#dock_results_container .file-preview .popover:after {
+    content:"... Open or Download file to view more.";
+    font-family: inherit;
+    font-size: 10pt;
+    color: #31708f;
+}
 /*Show more CSS*/
 .show-more, .show-more:hover, .show-more:focus {
     color: #00f;

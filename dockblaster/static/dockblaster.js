@@ -38,10 +38,13 @@ $(document).ready(function () {
 var dockblaster = {
     getFileContents: function(){
         var url = $(this).attr('data-href');
-        return $.ajax({
+        var preview_text = $.ajax({
             type: "GET",
             url: url,
             async: false
         }).responseText.substring(0,200);
+        if(preview_text.length == 0){
+            "File empty."
+        }
     }
 }

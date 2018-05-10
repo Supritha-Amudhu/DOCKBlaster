@@ -31,5 +31,17 @@ $(document).ready(function () {
             }
         });
     });
+    $('[data-toggle="popover"]').popover({content: dockblaster.getFileContents});
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+var dockblaster = {
+    getFileContents: function(){
+        var url = $(this).attr('data-href');
+        return $.ajax({
+            type: "GET",
+            url: url,
+            async: false
+        }).responseText.substring(0,200);
+    }
+}

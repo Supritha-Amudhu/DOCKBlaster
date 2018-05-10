@@ -44,7 +44,8 @@ var dockblaster = {
             async: false
         }).responseText.substring(0,200);
         if(preview_text.length == 0){
-            "File empty."
+            preview_text = "File empty.";
         }
+        return preview_text;
     }
 }

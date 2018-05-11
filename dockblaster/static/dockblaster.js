@@ -18,7 +18,7 @@ $(document).ready(function () {
                 console.log(result);
                 $.each( result, function( key, value ) {
                     $('#dock_results_list_table .job-results-check-box:checked').each(function(index,obj){
-                       if($(obj).attr('id').contains("_"+key) && value == true) {
+                       if($(obj).attr('id').indexOf("_" + key) > 0 && value == true) {
                            var tableRow = $(obj).closest('tr');
                            console.log("Deleting "+$(tableRow).attr('id'));
                             dock_results_table.row(tableRow).remove().draw();

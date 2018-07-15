@@ -15,8 +15,9 @@ class User(UserMixin, BaseModel):
     date_created = db.Column(db.DateTime)
     admin = db.Column(db.Boolean)
     deleted = db.Column(db.Boolean)
+    api_key = db.Column(db.String(100))
 
-    def __init__(self, first_name, last_name, email, password, date_created, admin = False, deleted = False):
+    def __init__(self, first_name, last_name, email, password, date_created, admin = False, deleted = False, api_key = "test"):
         super(User, self).__init__()
         self.first_name = first_name
         self.last_name = last_name
@@ -25,6 +26,7 @@ class User(UserMixin, BaseModel):
         self.date_created = date_created
         self.admin = admin
         self.deleted = deleted
+        self.api_key = api_key
 
     def __repr__(self):
         return "<User: {}".format(self.first_name)
@@ -50,6 +52,19 @@ class User(UserMixin, BaseModel):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def get_api_key(self, api_key):
+        return self.api_key
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+@login_manager.request_loader
+def load_user_from_request(request):
+    api_key = request.args.get('api_key')
+    if not api_key:
+        api_key = request.form.get('api_key')
+    if api_key:
+        user = User.query.filter_by(api_key=api_key).first()
+        if user:
+            return user

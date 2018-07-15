@@ -58,8 +58,10 @@ def upgrade():
                     sa.Column('date_created', sa.DateTime(), nullable=False),
                     sa.Column('admin', sa.Boolean, nullable=False),
                     sa.Column('deleted', sa.Boolean, nullable=False),
+                    sa.Column('api_key', sa.String(), nullable=False),
                     sa.PrimaryKeyConstraint('user_id'),
-                    sa.UniqueConstraint('email')
+                    sa.UniqueConstraint('email'),
+                    sa.UniqueConstraint('api_key')
                     )
 
     op.create_table('docking_jobs',

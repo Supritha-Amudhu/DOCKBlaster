@@ -2,6 +2,8 @@
 """User views."""
 from flask import Blueprint, render_template, redirect, request, flash, url_for
 from flask_login import current_user, login_user, logout_user
+
+from dockblaster.user.helper import validate_and_save_user
 from .forms import LoginForm, SignUpForm
 from .models import User
 from dockblaster.database import db
@@ -54,19 +56,7 @@ def get_signup():
 def on_submit_signup():
     sign_up_form = SignUpForm()
     if sign_up_form.validate_on_submit():
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        password = request.form['password']
-        email = request.form['email']
-        date_created = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        if first_name == '' or last_name == '' or password == '' or email == '':
-            flash("Please fill the required fields")
-            return redirect(url_for('user.get_signup'))
-        create_user_recipe = User(first_name=first_name, last_name=last_name, password=password, email=email,
-                                  date_created=date_created)
-        db.session.add(create_user_recipe)
-        db.session.commit()
-        flash("Registration successful.", category='success')
+        validate_and_save_user(request)
         return redirect(url_for('user.get_login'))
     flash("Sign up unsuccessful. Please sign up again.", category='danger')
     return redirect(url_for('user.get_signup'))

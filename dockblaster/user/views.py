@@ -6,13 +6,11 @@ from flask_login import current_user, login_user, logout_user
 from dockblaster.user.helper import validate_and_save_user
 from .forms import LoginForm, SignUpForm
 from .models import User
-from dockblaster.database import db
-import datetime
 
-blueprint = Blueprint('user', __name__, url_prefix='/', static_folder='../static')
+user_blueprint = Blueprint('user', __name__, url_prefix='/', static_folder='../static')
 
 
-@blueprint.route('login', methods=['GET'])
+@user_blueprint.route('login', methods=['GET'])
 def get_login():
     if current_user.is_authenticated:
         return redirect(url_for('public.index'))
@@ -22,7 +20,7 @@ def get_login():
     return render_template("user/login.html", title="Login", heading ="LOGIN", login_form=login_form)
 
 
-@blueprint.route('login', methods=['POST'])
+@user_blueprint.route('login', methods=['POST'])
 def on_login_submit():
     login_form = LoginForm()
     if login_form.validate_on_submit():
@@ -30,20 +28,23 @@ def on_login_submit():
         if user is None or not user.check_password(login_form.password.data):
             flash("Invalid Email or Password", category='danger')
             return render_template("user/login.html", title="Login", heading="LOGIN", login_form=login_form)
+        elif user.is_admin():
+            flash("Logged in successfully", category='success')
+            return redirect(url_for('admin.index'))
         login_user(user, remember=login_form.remember_me.data)
         flash("Logged in successfully", category='success')
         return redirect(url_for('public.index'))
     return render_template("user/login.html", title="Login", heading="LOGIN", login_form=login_form)
 
 
-@blueprint.route('logout', methods=['GET','POST'])
+@user_blueprint.route('logout', methods=['GET','POST'])
 def on_logout():
     logout_user()
     flash("Logged out successfully", category='success')
     return redirect('login')
 
 
-@blueprint.route('sign_up', methods=['GET'])
+@user_blueprint.route('sign_up', methods=['GET'])
 def get_signup():
     sign_up_form = SignUpForm()
     if sign_up_form.validate_on_submit():
@@ -52,7 +53,7 @@ def get_signup():
         return render_template("user/sign_up.html", title="Sign Up", heading="Sign Up", form=sign_up_form)
 
 
-@blueprint.route('sign_up', methods=['POST'])
+@user_blueprint.route('sign_up', methods=['POST'])
 def on_submit_signup():
     sign_up_form = SignUpForm()
     if sign_up_form.validate_on_submit():

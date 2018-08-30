@@ -29,6 +29,7 @@ def on_login_submit():
             flash("Invalid Email or Password", category='danger')
             return render_template("user/login.html", title="Login", heading="LOGIN", login_form=login_form)
         elif user.is_admin():
+            login_user(user, remember=login_form.remember_me.data)
             flash("Logged in successfully", category='success')
             return redirect(url_for('admin.index'))
         login_user(user, remember=login_form.remember_me.data)

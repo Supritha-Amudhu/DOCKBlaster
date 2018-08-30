@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """User views."""
 from flask import Blueprint, render_template, redirect, request, flash, url_for
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 from dockblaster.user.helper import validate_and_save_user
 from .forms import LoginForm, SignUpForm
@@ -39,6 +39,7 @@ def on_login_submit():
 
 
 @user_blueprint.route('logout', methods=['GET','POST'])
+@login_required
 def on_logout():
     logout_user()
     flash("Logged out successfully", category='success')
